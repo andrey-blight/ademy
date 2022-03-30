@@ -19,9 +19,8 @@ def global_init():
     engine = create_engine(conn_str, echo=False)
     __session = sessionmaker(bind=engine, autoflush=False, autocommit=False)  # create session config
     from . import db_models
-    SqlAlchemyBase.metadata.create_all(bind=engine)
     # SqlAlchemyBase.metadata.drop_all(bind=engine)
-    print('here')
+    SqlAlchemyBase.metadata.create_all(bind=engine)
 
 
 def create_session() -> Session:
