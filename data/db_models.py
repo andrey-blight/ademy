@@ -16,6 +16,7 @@ class User(SqlAlchemyBase):
     age = Column(String(25), nullable=False)
     sex = Column(Integer, nullable=False)
     hashed_password = Column(String(200), nullable=False)
+    email = Column(String(25), unique=True)
     created_on = Column(DateTime, default=datetime.now)
     updated_on = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     images = relationship("Image", back_populates="user")
@@ -24,11 +25,12 @@ class User(SqlAlchemyBase):
         CheckConstraint('sex IN (1, 2)', name='check_sex'),  # if sex is 1 - Male else sex is Female (ISO/IEC 5218)
     )
 
-    def __init__(self, name, surname, age, sex, password):
+    def __init__(self, name, surname, age, sex, password, email):
         self.name = name
         self.surname = surname
         self.age = age
         self.sex = sex
+        self.email = email
         self._set_password(password)
 
     def _set_password(self, password):
@@ -43,12 +45,11 @@ class Image(SqlAlchemyBase):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     image = Column(mysql.MEDIUMBLOB, nullable=False)
-    index = Column(Integer)
+    count = Column(Integer)
     user = relationship("User")
 
     __table_args__ = (
-        CheckConstraint('index <= 5', name='check_count_for_one_user'),
-        UniqueConstraint('user_id', 'image', name='unique_ssn')
+        CheckConstraint('count <= 5', name='check_count_for_one_user'),
     )
 
     def __init__(self, user_id, image):
@@ -58,4 +59,4 @@ class Image(SqlAlchemyBase):
 
     def set_index(self):
         session = create_session()
-        self.index = session.query(Image).where(self.user_id == Image.user_id).count() + 1
+        self.count = session.query(Image).where(self.user_id == Image.user_id).count() + 1
