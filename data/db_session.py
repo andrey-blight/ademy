@@ -18,8 +18,8 @@ def global_init():
     conn_str = environ.get("DEV_MYSQL_URI")  # get conn str from environment variable
     engine = create_engine(conn_str, echo=False)
     __session = sessionmaker(bind=engine, autoflush=False, autocommit=False)  # create session config
-    from . import db_models
-    # SqlAlchemyBase.metadata.drop_all(bind=engine)
+    from .models import Image, Interests, User
+    SqlAlchemyBase.metadata.drop_all(bind=engine)
     SqlAlchemyBase.metadata.create_all(bind=engine)
 
 

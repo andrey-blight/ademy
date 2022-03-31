@@ -1,5 +1,7 @@
 from data.db_session import global_init, create_session
-from data.db_models import User, Image
+from data.models.User import User
+from data.models.Image import Image
+from data.models.Interests import Interest
 from PIL import Image as PILImage
 import io
 from sqlalchemy.exc import OperationalError
@@ -11,6 +13,23 @@ def create_users():
     u2 = User(name="Daria", surname="Lavrenteva", age=17, sex=2, password="eifavb", email="Daria@gmail.com")
     u3 = User(name="Vadim", surname="Dragan", age=16, sex=1, password="weqifl", email="Vadim@gmail.com")
     session.add_all([u1, u2, u3])
+    session.commit()
+
+
+def create_interests():
+    session = create_session()
+    u1 = session.query(User).get(1)
+    u2 = session.query(User).get(2)
+    u3 = session.query(User).get(3)
+    i1 = Interest("sport")
+    i2 = Interest("fishing")
+    i3 = Interest("reading")
+    session.add_all([i1, i2, i3])
+    u1.interests.append(i1)
+    u1.interests.append(i3)
+    u2.interests.append(i2)
+    u2.interests.append(i3)
+    u3.interests.append(i1)
     session.commit()
 
 
@@ -32,4 +51,6 @@ def create_images():
 
 if __name__ == '__main__':
     global_init()
+    create_users()
     create_images()
+    create_interests()

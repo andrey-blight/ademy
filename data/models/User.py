@@ -1,10 +1,9 @@
-from .db_session import SqlAlchemyBase, create_session
+from ..db_session import SqlAlchemyBase
 
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects import mysql
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -20,6 +19,7 @@ class User(SqlAlchemyBase):
     created_on = Column(DateTime, default=datetime.now)
     updated_on = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     images = relationship("Image", back_populates="user")
+    interests = relationship('Interest', secondary='user_to_interest', back_populates='users')
 
     __table_args__ = (
         CheckConstraint('sex IN (1, 2)', name='check_sex'),  # if sex is 1 - Male else sex is Female (ISO/IEC 5218)
@@ -38,25 +38,3 @@ class User(SqlAlchemyBase):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
-
-
-class Image(SqlAlchemyBase):
-    __tablename__ = 'images'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    image = Column(mysql.MEDIUMBLOB, nullable=False)
-    count = Column(Integer)
-    user = relationship("User")
-
-    __table_args__ = (
-        CheckConstraint('count <= 5', name='check_count_for_one_user'),
-    )
-
-    def __init__(self, user_id, image):
-        self.user_id = user_id
-        self.image = image
-        self.set_index()
-
-    def set_index(self):
-        session = create_session()
-        self.count = session.query(Image).where(self.user_id == Image.user_id).count() + 1
