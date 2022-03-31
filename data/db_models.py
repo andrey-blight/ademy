@@ -2,8 +2,9 @@ from .db_session import SqlAlchemyBase, create_session
 
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, ForeignKey, BLOB
+from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects import mysql
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -41,12 +42,13 @@ class Image(SqlAlchemyBase):
     __tablename__ = 'images'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    image = Column(BLOB, nullable=False)
+    image = Column(mysql.MEDIUMBLOB, nullable=False)
     index = Column(Integer)
     user = relationship("User")
 
     __table_args__ = (
         CheckConstraint('index <= 5', name='check_count_for_one_user'),
+        UniqueConstraint('user_id', 'image', name='unique_ssn')
     )
 
     def __init__(self, user_id, image):
