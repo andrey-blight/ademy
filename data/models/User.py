@@ -1,13 +1,12 @@
 from ..db_session import SqlAlchemyBase
-
 from datetime import datetime
-
 from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy_serializer import SerializerMixin
 
 
-class User(SqlAlchemyBase):
+class User(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     name = Column(String(25), nullable=False)
@@ -16,6 +15,7 @@ class User(SqlAlchemyBase):
     sex = Column(Integer, nullable=False)
     hashed_password = Column(String(200), nullable=False)
     email = Column(String(25), unique=True)
+    # TODO: created_at * and updated_at *
     created_on = Column(DateTime, default=datetime.now)
     updated_on = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     images = relationship("Image", back_populates="user")
@@ -36,5 +36,8 @@ class User(SqlAlchemyBase):
     def _set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 
-    def check_password(self, password):
+    def check_password(self, password) -> bool:
         return check_password_hash(self.hashed_password, password)
+
+    def __repr__(self) -> str:
+        return str(self.to_dict())
