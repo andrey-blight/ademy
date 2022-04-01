@@ -19,7 +19,7 @@ def global_init():
     engine = create_engine(conn_str, echo=False)
     __session = sessionmaker(bind=engine, autoflush=False, autocommit=False)  # create session config
     from .models import Image, Interests, User
-    SqlAlchemyBase.metadata.drop_all(bind=engine)
+    # SqlAlchemyBase.metadata.drop_all(bind=engine)
     SqlAlchemyBase.metadata.create_all(bind=engine)
 
 
