@@ -1,7 +1,11 @@
 from flask import Flask
+from api import MainAPI
 
-app = Flask(__name__)
-app.config.from_object('config.DevConfig')
+application = Flask(__name__)
+application.config.from_object('config.DevConfig')
+
+
+MainAPI(application)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080)
+    application.run(host='localhost', port=8080)
