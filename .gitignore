@@ -1,3 +1,4 @@
 .idea
 .env
 create_mysql.py
+__pycache__
