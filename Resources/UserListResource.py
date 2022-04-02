@@ -13,6 +13,8 @@ class UserListResource(Model):
         return jsonify([item.to_dict() for item in users])
 
     def post(self):
+        # TODO: Вынести все парсеры в отдельный файл в папке data
+        # TODO: Добавить поле about yourself
         self.parser.add_argument('name', required=True, type=str)
         self.parser.add_argument('surname', required=True, type=str)
         self.parser.add_argument('age', required=True, type=int)
