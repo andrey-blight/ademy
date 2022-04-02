@@ -1,5 +1,4 @@
 from flask import jsonify
-from flask_restful import reqparse
 
 from Classes.Model import Model
 from data.models.User import User
