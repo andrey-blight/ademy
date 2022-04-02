@@ -1,5 +1,7 @@
 from data.functions import load_environment_variable
 
+import importlib
+import os
 from os import environ
 
 from sqlalchemy import create_engine
@@ -27,18 +29,17 @@ class SqlAlchemyDatabase:
         conn_str = environ.get("DEV_MYSQL_URI")  # get connection str from environment variable
         engine = create_engine(conn_str, echo=False)
         self.__session = sessionmaker(bind=engine, autoflush=False, autocommit=False)  # create session config
-        # TODO: автоматически добавлять модели
-        # from data.models import Image, Interests, User
         if delete:
             self.SqlAlchemyBase.metadata.drop_all(bind=engine)  # removing data from database
         if create:
+            os.chdir(r"../data/models")
+            files = [el.split('.')[0] for el in os.listdir() if el.endswith(".py")]  # get all files with models
+            for module in files:
+                importlib.import_module("data.models." + module)  # import them in current file
             self.SqlAlchemyBase.metadata.create_all(bind=engine)  # adding data to database
 
     def get_base(self) -> DeclarativeMeta:
-        """
-        Get object for inheritance classes
-        :return: DeclarativeMeta
-        """
+        """Get object for inheritance model classes"""
         return self.SqlAlchemyBase
 
     def create_session(self) -> Session:
