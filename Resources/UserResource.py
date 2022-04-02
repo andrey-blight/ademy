@@ -10,8 +10,7 @@ class UserResource(Model):
     # Returns the user by id
     def get(self, user_id: int):
         self.is_id_exists(user_id)
-        session = self.db.create_session()
-        user = session.query(self.Model).get(user_id)
+        user = self.session.query(self.Model).get(user_id)
         if user:
             return jsonify({user.to_dict()})
         else:
@@ -26,12 +25,11 @@ class UserResource(Model):
         self.parser.add_argument("password", required=False, type=str)
         self.parser.add_argument("email", required=False, type=str)
         args = self.parser.parse_args()
-        session = self.db.create_session()
-        user = session.query(self.Model).get(user_id)
+        user = self.session.query(self.Model).get(user_id)
         for arg in args:
             if args[arg] is not None:
                 setattr(user, arg, args[arg])
-        session.commit()
+        self.session.commit()
         return jsonify(user.to_dict())
 
     def delete(self, user_id: int):
