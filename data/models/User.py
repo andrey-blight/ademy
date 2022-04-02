@@ -14,6 +14,7 @@ class User(database.get_base(), SerializerMixin):
     name = Column(String(25), nullable=False)
     surname = Column(String(25), nullable=False)
     age = Column(String(25), nullable=False)
+    about_yourself = Column(String(2000), nullable=False)
     sex = Column(Integer, nullable=False)
     hashed_password = Column(String(200), nullable=False)
     email = Column(String(25), unique=True)
