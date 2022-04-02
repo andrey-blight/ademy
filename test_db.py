@@ -1,4 +1,7 @@
-from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
+import os.path
+
+from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase, SqlAlchemyBase
+
 from data.models.User import User
 from data.models.Image import Image
 from data.models.Interests import Interest
@@ -33,9 +36,18 @@ def create_interests():
     session.commit()
 
 
+def create_likes():
+    session = db.create_session()
+    u1 = session.query(User).get(1)
+    u2 = session.query(User).get(2)
+    u2.liked_from.append(u1)
+    session.commit()
+
+
 def create_images():
     for i in range(1, 8):
         try:
+            print(os.path.abspath(os.getcwd()))
             source = fr"test_images/{i}.jpg"
             image_jpg = PILImage.open(source)  # Open image
             bite = io.BytesIO()
@@ -50,7 +62,8 @@ def create_images():
 
 
 if __name__ == '__main__':
-    db = SqlAlchemyDatabase()
+    db = SqlAlchemyDatabase(create=True, delete=True)
     create_users()
-    create_images()
+    create_likes()
     create_interests()
+    create_images()
