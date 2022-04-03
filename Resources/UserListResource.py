@@ -1,7 +1,9 @@
+from flask_restful import abort
+
 from Classes.Model import Model
 from data.models.User import User
 from data.parsers import user_parser
-
+from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from flask import jsonify
 
 
@@ -11,6 +13,7 @@ class UserListResource(Model):
 
     def get(self):
         session = self.db.create_session()
+        print(type(session))
         users = session.query(self.Model).all()
         return jsonify([item.to_dict() for item in users])
 

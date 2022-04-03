@@ -55,7 +55,6 @@ def create_images():
 
 
 if __name__ == '__main__':
-    db = SqlAlchemyDatabase(create=True, delete=True)
-    create_users()
-    create_interests()
-    create_images()
+    db = SqlAlchemyDatabase()
+    session = db.create_session()
+    print(session.query(User).all())
