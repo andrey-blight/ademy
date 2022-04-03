@@ -8,6 +8,7 @@ from sqlalchemy.dialects.mysql import JSON
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 # like = Table("user_likes", SqlAlchemyBase.metadata,
 #              Column("user_from", Integer, ForeignKey("users.id")),
 #              Column("user_to", Integer, ForeignKey("users.id")))
@@ -41,10 +42,12 @@ class User(SqlAlchemyBase, SerializerMixin):
         CheckConstraint("sex IN (1, 2)", name="check_sex"),  # if sex is 1 - Male else sex is Female (ISO/IEC 5218)
     )
 
-    def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2], password: str, email: str):
+    def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2], password: str, email: str,
+                 about_yourself=None):
         self.name = name
         self.surname = surname
         self.age = age
+        self.about_yourself = about_yourself
         self.sex = sex
         self.email = email
         self._set_password(password)

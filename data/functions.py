@@ -6,7 +6,8 @@ def load_environment_variable():
     load_dotenv(path.join(basedir, r"../.env"))  # add .env to path and load .env file
 
 
-def get_models_path(abs_path):
+def get_models_path(abs_path: str) -> str:
+    """Get path for import models"""
     elements = abs_path.split("\\")
     if len(elements) < 2 or elements[-2] != "data":
         elements.extend(("data", "models"))

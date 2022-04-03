@@ -19,7 +19,6 @@ class SqlAlchemyDatabase:
         :param create: if true create all models
         :param delete: if true delete all models
         """
-
         self._global_init(create, delete)
 
     @staticmethod
@@ -34,7 +33,6 @@ class SqlAlchemyDatabase:
         if delete:
             SqlAlchemyBase.metadata.drop_all(bind=engine)  # removing data from database
         if create:
-            # from data.models import Image, User, Interests
             abs_path = os.path.abspath(os.curdir)
             os.chdir(get_models_path(abs_path))
             files = [el.split('.')[0] for el in os.listdir() if el.endswith(".py")]  # get all files with models

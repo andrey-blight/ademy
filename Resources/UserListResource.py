@@ -1,5 +1,6 @@
 from Classes.Model import Model
 from data.models.User import User
+from data.parsers import user_parser
 
 from flask import jsonify
 
@@ -9,23 +10,17 @@ class UserListResource(Model):
         super().__init__("User")
 
     def get(self):
-        users = self.db.query(self.Model).all()
+        session = self.db.create_session()
+        users = session.query(self.Model).all()
         return jsonify([item.to_dict() for item in users])
 
     def post(self):
-        # TODO: Вынести все парсеры в отдельный файл в папке data
-        # TODO: Добавить поле about yourself
-        self.parser.add_argument("name", required=True, type=str)
-        self.parser.add_argument("surname", required=True, type=str)
-        self.parser.add_argument("age", required=True, type=int)
-        self.parser.add_argument("sex", required=True, type=int)
-        self.parser.add_argument("password", required=True, type=str)
-        self.parser.add_argument("email", required=True, type=str)
-        args = self.parser.parse_args()
+        args = user_parser.parse_args()
         user = User(
             name=args["name"],
             surname=args["surname"],
             age=args["age"],
+            about_yourself=args.get("about_yourself", None),
             sex=args["sex"],
             password=args["password"],
             email=args["email"]

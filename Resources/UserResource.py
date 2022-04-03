@@ -1,4 +1,5 @@
 from Classes.Model import Model
+from data.parsers import user_parser
 
 from flask import jsonify
 
@@ -7,29 +8,25 @@ class UserResource(Model):
     def __init__(self):
         super().__init__("User")
 
-    # Returns the user by id
     def get(self, user_id: int):
-        self.is_id_exists(user_id)
-        user = self.session.query(self.Model).get(user_id)
+        user = self.get_object(user_id)
         if user:
             return jsonify({user.to_dict()})
         else:
             return jsonify({"message": "Error"})
 
     def put(self, user_id: int):
-        self.is_id_exists(user_id)
-        self.parser.add_argument("name", required=False, type=str)
-        self.parser.add_argument("surname", required=False, type=str)
-        self.parser.add_argument("age", required=False, type=int)
-        self.parser.add_argument("sex", required=False, type=int)
-        self.parser.add_argument("password", required=False, type=str)
-        self.parser.add_argument("email", required=False, type=str)
-        args = self.parser.parse_args()
-        user = self.session.query(self.Model).get(user_id)
-        for arg in args:
-            if args[arg] is not None:
-                setattr(user, arg, args[arg])
-        self.session.commit()
+        args = user_parser.parse_args()
+        user = self.get_object(user_id)
+        session = self.db.create_session()
+        try:
+            for arg in args:
+                if args[arg] is not None:
+                    setattr(user, arg, args[arg])
+            session.commit()
+        except Exception as ex:
+            print(ex)
+            session.rollback()
         return jsonify(user.to_dict())
 
     def delete(self, user_id: int):

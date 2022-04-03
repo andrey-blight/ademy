@@ -36,18 +36,9 @@ def create_interests():
     session.commit()
 
 
-def create_likes():
-    session = db.create_session()
-    u1 = session.query(User).get(1)
-    u2 = session.query(User).get(2)
-    u2.liked_from.append(u1)
-    session.commit()
-
-
 def create_images():
     for i in range(1, 8):
         try:
-            print(os.path.abspath(os.getcwd()))
             source = fr"test_images/{i}.jpg"
             image_jpg = PILImage.open(source)  # Open image
             bite = io.BytesIO()
@@ -55,7 +46,9 @@ def create_images():
             im_bytes = bite.getvalue()
             session = db.create_session()
             db_img = Image(user_id=3, image=im_bytes)
-            session.add(db_img)
+            u3 = session.query(User).get(3)
+            u3.images.append(db_img)
+            # session.add(db_img)
             session.commit()
         except OperationalError as ex:
             print(ex.args[0].split("'")[1])
@@ -64,6 +57,5 @@ def create_images():
 if __name__ == '__main__':
     db = SqlAlchemyDatabase(create=True, delete=True)
     create_users()
-    create_likes()
     create_interests()
     create_images()

@@ -23,6 +23,7 @@ class Image(SqlAlchemyBase):
         self.set_index()
 
     def set_index(self):
+        """Add account number of image"""
         database = SqlAlchemyDatabase()
         session = database.create_session()
         self.count = session.query(Image).where(self.user_id == Image.user_id).count() + 1
