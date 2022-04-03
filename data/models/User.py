@@ -1,6 +1,4 @@
 from Classes.SqlAlchemyDatabase import SqlAlchemyBase
-from .Image import Image
-from .Interests import *
 
 from datetime import datetime
 

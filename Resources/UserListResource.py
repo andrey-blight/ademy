@@ -13,7 +13,6 @@ class UserListResource(Model):
 
     def get(self):
         session = self.db.create_session()
-        print(type(session))
         users = session.query(self.Model).all()
         return jsonify([item.to_dict() for item in users])
 
