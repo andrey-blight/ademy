@@ -1,9 +1,7 @@
-from flask_restful import abort
-
 from Classes.Model import Model
 from data.models.User import User
 from data.parsers import user_parser
-from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
+
 from flask import jsonify
 
 
@@ -17,6 +15,7 @@ class UserListResource(Model):
         return jsonify([item.to_dict() for item in users])
 
     def post(self):
+        # TODO: Возможность добавления к пользователю интересов и фотографий
         args = user_parser.parse_args()
         user = User(
             name=args["name"],
@@ -27,6 +26,12 @@ class UserListResource(Model):
             password=args["password"],
             email=args["email"]
         )
-        self.db.add(user)
-        self.db.commit()
-        return jsonify(user.to_dict())
+        session = self.db.create_session()
+        try:
+            session.add(user)
+            session.commit()
+            return jsonify(user.to_dict())
+        except Exception as ex:
+            session.rollback()
+            print(ex)
+            return jsonify({"Error": ex})

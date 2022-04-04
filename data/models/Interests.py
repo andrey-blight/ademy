@@ -2,6 +2,7 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyBase
 
 from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Table
 from sqlalchemy.orm import relationship
+from sqlalchemy_serializer import SerializerMixin
 
 user_to_interest = Table("user_to_interest", SqlAlchemyBase.metadata,
                          Column("user_id", Integer, ForeignKey("users.id")),
@@ -9,8 +10,10 @@ user_to_interest = Table("user_to_interest", SqlAlchemyBase.metadata,
                          UniqueConstraint("user_id", "interest_id", name="unique_value"))
 
 
-class Interest(SqlAlchemyBase):
+class Interest(SqlAlchemyBase, SerializerMixin):
     __tablename__ = "interests"
+    serialize_only = ("id", "name")
+
     id = Column(Integer, primary_key=True)
     name = Column(String(25), unique=True)
     users = relationship("User", secondary=user_to_interest, back_populates="interests")

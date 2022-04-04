@@ -2,20 +2,21 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyBase
 
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, CheckConstraint, Table
+from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import JSON
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-# like = Table("user_likes", SqlAlchemyBase.metadata,
-#              Column("user_from", Integer, ForeignKey("users.id")),
-#              Column("user_to", Integer, ForeignKey("users.id")))
-
-
 class User(SqlAlchemyBase, SerializerMixin):
     __tablename__ = "users"
+    __table_args__ = (
+        CheckConstraint("sex IN (1, 2)", name="check_sex"),  # if sex is 1 - Male else sex is Female (ISO/IEC 5218)
+    )
+    serialize_only = ("id", "name", "surname", "age", "about_yourself",
+                      "sex", "hashed_password", "email", "created_at", "updated_at", "images", "interests")
+
     id = Column(Integer, primary_key=True)
     name = Column(String(25), nullable=False)
     surname = Column(String(25), nullable=False)
@@ -28,19 +29,6 @@ class User(SqlAlchemyBase, SerializerMixin):
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     images = relationship("Image", back_populates="user")
     interests = relationship("Interest", secondary="user_to_interest", back_populates="users")
-    # liked_to = relationship("User",
-    #                         secondary="user_likes",
-    #                         primaryjoin=(id == like.c.user_from),
-    #                         secondaryjoin=(id == like.c.user_to)
-    #                         )  # Все пользователи которым текущий пользователь поставил лайк
-    # liked_from = relationship("User",
-    #                           secondary="user_likes",
-    #                           primaryjoin=(id == like.c.user_to),
-    #                           secondaryjoin=(id == like.c.user_from)
-    #                           )  # Все пользователи которые поставили лайк текущему пользователю
-    __table_args__ = (
-        CheckConstraint("sex IN (1, 2)", name="check_sex"),  # if sex is 1 - Male else sex is Female (ISO/IEC 5218)
-    )
 
     def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2], password: str, email: str,
                  about_yourself=None):
