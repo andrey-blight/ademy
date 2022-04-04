@@ -1,4 +1,4 @@
-def load_environment_variable():
+def load_environment_variable() -> None:
     """This function loads environment variable from .env file"""
     from os import path
     from dotenv import load_dotenv  # library for work with .env files
@@ -7,10 +7,10 @@ def load_environment_variable():
 
 
 def get_models_path(abs_path: str) -> str:
-    """Get path for import models"""
+    """Get path for import Models"""
     elements = abs_path.split("\\")
-    if len(elements) < 2 or elements[-2] != "data":
-        elements.extend(("data", "models"))
-    elif elements[-1] != "models":
-        elements.append("models")
+    if len(elements) < 2 or elements[-2] != "Data":
+        elements.extend(("Data", "Models"))
+    elif elements[-1] != "Models":
+        elements.append("Models")
     return '\\'.join(el for el in elements)

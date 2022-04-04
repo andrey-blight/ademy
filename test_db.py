@@ -2,9 +2,9 @@ import os.path
 
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase, SqlAlchemyBase
 
-from data.models.User import User
-from data.models.Image import Image
-from data.models.Interests import Interest
+from Data.Models.User import User
+from Data.Models.Image import Image
+from Data.Models.Interests import Interest
 from PIL import Image as PILImage
 import io
 from sqlalchemy.exc import OperationalError
@@ -55,6 +55,4 @@ def create_images():
 
 
 if __name__ == '__main__':
-    db = SqlAlchemyDatabase()
-    session = db.create_session()
-    print(session.query(User).all())
+    db = SqlAlchemyDatabase(delete=True, create=True)

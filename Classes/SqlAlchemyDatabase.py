@@ -1,4 +1,4 @@
-from data.functions import load_environment_variable, get_models_path
+from Data.Functions import load_environment_variable, get_models_path
 
 import importlib
 import os
@@ -16,8 +16,8 @@ class SqlAlchemyDatabase:
     def __init__(self, create=False, delete=False):
         """
         Init database
-        :param create: if true create all models
-        :param delete: if true delete all models
+        :param create: if true create all Models
+        :param delete: if true delete all Models
         """
         self._global_init(create, delete)
 
@@ -32,14 +32,14 @@ class SqlAlchemyDatabase:
         _session = sessionmaker(bind=engine, autoflush=False, autocommit=False)  # create session config
         abs_path = os.path.abspath(os.curdir)
         os.chdir(get_models_path(abs_path))
-        files = [el.split('.')[0] for el in os.listdir() if el.endswith(".py")]  # get all files with models
+        files = [el.split('.')[0] for el in os.listdir() if el.endswith(".py")]  # get all files with Models
         os.chdir(r"../../")
         for module in files:
-            importlib.import_module("data.models." + module)  # import them in current file
+            importlib.import_module("Data.Models." + module)  # import them in current file
         if delete:
-            SqlAlchemyBase.metadata.drop_all(bind=engine)  # removing data from database
+            SqlAlchemyBase.metadata.drop_all(bind=engine)  # removing Data from database
         if create:
-            SqlAlchemyBase.metadata.create_all(bind=engine)  # adding data to database
+            SqlAlchemyBase.metadata.create_all(bind=engine)  # adding Data to database
 
     @staticmethod
     def create_session() -> Session:

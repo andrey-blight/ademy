@@ -1,4 +1,4 @@
-from data.functions import load_environment_variable
+from Data.Functions import load_environment_variable
 
 from os import environ
 

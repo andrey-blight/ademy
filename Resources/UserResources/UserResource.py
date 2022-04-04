@@ -1,5 +1,5 @@
 from Classes.Model import Model
-from data.parsers import user_parser
+from Data.Parsers import user_parser
 
 from flask import jsonify
 

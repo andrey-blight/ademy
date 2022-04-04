@@ -1,5 +1,5 @@
-from Resources.UserListResource import UserListResource
-from Resources.UserResource import UserResource
+from Resources.UserResources.UserListResource import UserListResource
+from Resources.UserResources.UserResource import UserResource
 
 from flask_restful import Api
 

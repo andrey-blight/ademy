@@ -9,7 +9,7 @@ class Model(Resource):
     def __init__(self, child_class_name: str):
         self.db = SqlAlchemyDatabase()
         self._child_class_name = child_class_name
-        self.Model = getattr(importlib.import_module("data.models." + child_class_name), child_class_name)
+        self.Model = getattr(importlib.import_module("Data.Models." + child_class_name), child_class_name)
 
     # TODO: подумать что с этим сделать
     def get_object(self, id: int):

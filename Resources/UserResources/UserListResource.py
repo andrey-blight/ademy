@@ -1,7 +1,8 @@
 from Classes.Model import Model
-from data.models.User import User
-from data.parsers import user_parser
+from Data.Models.User import User
+from Data.Parsers import user_parser
 
+from sqlalchemy.exc import IntegrityError
 from flask import jsonify
 
 
@@ -30,8 +31,6 @@ class UserListResource(Model):
         try:
             session.add(user)
             session.commit()
-            return jsonify(user.to_dict())
-        except Exception as ex:
-            session.rollback()
-            print(ex)
-            return jsonify({"Error": ex})
+            return jsonify({"message": "User successfully added", "user": user.to_dict()})
+        except IntegrityError:
+            return jsonify({"Error": "User with such email exists"})
