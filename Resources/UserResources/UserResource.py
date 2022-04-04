@@ -10,10 +10,7 @@ class UserResource(Model):
 
     def get(self, user_id: int):
         user = self.get_object(user_id)
-        if user:
-            return jsonify({user.to_dict()})
-        else:
-            return jsonify({"message": "Error"})
+        return jsonify(user.to_dict())
 
     def put(self, user_id: int):
         args = user_parser.parse_args()
@@ -31,6 +28,11 @@ class UserResource(Model):
 
     def delete(self, user_id: int):
         session = self.db.create_session()
-        user = session.query(self.Model).delete(user_id)
-        session.commit()
-        return jsonify(user.to_dict())
+        user = self.get_object(user_id, close=True)
+        try:
+            session.delete(user)
+            session.commit()
+            return jsonify({"message": "User successfully deleted", "user": user.to_dict()})
+        except Exception as ex:
+            print(type(ex), ex, sep='\n')
+            return jsonify({"Error": "Unexpected"})
