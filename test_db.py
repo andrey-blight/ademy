@@ -55,7 +55,10 @@ def create_images():
 
 
 if __name__ == '__main__':
-    db = SqlAlchemyDatabase(delete=True, create=True)
-    create_users()
-    create_images()
-    create_interests()
+    db = SqlAlchemyDatabase()
+    session = db.create_session()
+    u1 = session.query(User).get(1)
+    u2 = session.query(User).get(2)
+    print(u2.liked_to)
+    print(u1.liked_from)
+    session.commit()

@@ -2,11 +2,18 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyBase
 
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint
+from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, Table, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import JSON
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+
+liked_to = Table("liked_to", SqlAlchemyBase.metadata,
+                 Column("id", Integer, ForeignKey("users.id")),
+                 Column("id_to", Integer, ForeignKey("users.id")))
+liked_from = Table("liked_from", SqlAlchemyBase.metadata,
+                   Column("id", Integer, ForeignKey("users.id")),
+                   Column("id_from", Integer, ForeignKey("users.id")))
 
 
 class User(SqlAlchemyBase, SerializerMixin):
@@ -29,6 +36,16 @@ class User(SqlAlchemyBase, SerializerMixin):
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     images = relationship("Image", cascade="all, delete", back_populates="user")
     interests = relationship("Interest", secondary="user_to_interest", back_populates="users")
+    liked_to = relationship("User",
+                            secondary="liked_to",
+                            primaryjoin=(id == liked_to.c.id),
+                            secondaryjoin=(id == liked_to.c.id_to)
+                            )  # Все пользователи которым текущий пользователь поставил лайк
+    liked_from = relationship("User",
+                              secondary="liked_from",
+                              primaryjoin=(id == liked_from.c.id),
+                              secondaryjoin=(id == liked_from.c.id_from)
+                              )  # Все пользователи которые поставили лайк текущему пользователю
 
     def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2], password: str, email: str,
                  about_yourself=None):
