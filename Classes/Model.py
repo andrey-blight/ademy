@@ -12,7 +12,6 @@ class Model(Resource):
         self._child_class_name = child_class_name
         self.Model = getattr(importlib.import_module("Data.Models." + child_class_name), child_class_name)
 
-    # TODO: подумать что с этим сделать
     def get_object(self, id: int, session: Session):
         """Retrieves an object in the session that was passed by id"""
         try:
