@@ -18,7 +18,7 @@ db = SqlAlchemyDatabase()
 login_manager = LoginManager()
 login_manager.init_app(application)
 
-
+# add log
 @login_manager.user_loader
 def load_user(user_id):
     session = db.create_session()
