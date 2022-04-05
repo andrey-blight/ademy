@@ -40,7 +40,5 @@ def login():
     return render_template("login.html", title="Авторизация", form=form)
 
 
-def register():
-
 if __name__ == "__main__":
     application.run(host="localhost", port=8080)
