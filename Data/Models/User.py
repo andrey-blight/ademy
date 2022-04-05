@@ -4,7 +4,6 @@ from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.mysql import JSON
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin

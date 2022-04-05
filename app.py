@@ -4,10 +4,10 @@ from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from Data.Models.User import User
 
-from flask import Flask, render_template, request, make_response, redirect
+from flask import Flask, render_template, redirect
 from flask_login import LoginManager, login_user
 
-application = Flask(__name__, template_folder=r"Data/static/templates")
+application = Flask(__name__, template_folder=r"templates")
 application.config.from_object("config.DevConfig")
 
 API = MainAPI(application)
@@ -39,8 +39,6 @@ def login():
                                form=form)
     return render_template("login.html", title="Авторизация", form=form)
 
-
-def register():
 
 if __name__ == "__main__":
     application.run(host="localhost", port=8080)

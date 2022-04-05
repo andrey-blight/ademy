@@ -1,12 +1,11 @@
 from Data.Functions import load_environment_variable
 from os import environ
 
-"""
-Class for create the server URI
-"""
-
 
 class ServerBuilder:
+    """
+    Class for create the server URI
+    """
     COLON: str = ':'
     SLASH: str = '/'
 

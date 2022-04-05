@@ -1,6 +1,3 @@
-import os
-
-
 def load_environment_variable() -> None:
     """This function loads environment variable from .env file"""
     from os import path
@@ -11,14 +8,15 @@ def load_environment_variable() -> None:
 
 def get_models_path(abs_path: str) -> str:
     """Get path for import Models"""
+    import os
     elements = abs_path.split("\\")
-    separator: str = ''
+    separator = ''
     if len(elements) < 2 or elements[-2] != "Data":
         elements.extend(("Data", "Models"))
     elif elements[-1] != "Models":
         elements.append("Models")
     if os.name == 'nt':
-        separator: str = '\\'
+        separator = '\\'
     elif os.name == 'posix':
-        separator: str = '/'
+        separator = '/'
     return separator.join(el for el in elements)
