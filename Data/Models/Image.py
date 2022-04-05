@@ -1,7 +1,7 @@
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase, SqlAlchemyBase
 
 from sqlalchemy import Column, Integer, CheckConstraint, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 from sqlalchemy.dialects import mysql
 from sqlalchemy_serializer import SerializerMixin
 
@@ -24,8 +24,9 @@ class Image(SqlAlchemyBase, SerializerMixin):
         self.image = image
         self.set_index()
 
-    def set_index(self):
+    def set_index(self, session=None) -> None:
         """Add account number of image"""
-        database = SqlAlchemyDatabase()
-        session = database.create_session()
+        if session is None:
+            database = SqlAlchemyDatabase()
+            session = database.create_session()
         self.count = session.query(Image).where(self.user_id == Image.user_id).count() + 1

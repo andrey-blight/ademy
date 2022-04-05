@@ -10,6 +10,6 @@ class MainAPI:
         self.api.prefix = r"/api/v1"
         self._resources()
 
-    def _resources(self):
+    def _resources(self) -> None:
         self.api.add_resource(UserResource, r"/user/<int:user_id>", methods=["GET", "PUT", "DELETE"])
         self.api.add_resource(UserListResource, r"/users", methods=["GET", "POST"])

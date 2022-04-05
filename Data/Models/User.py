@@ -2,17 +2,19 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyBase
 
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, Table, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, Table, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 liked_to = Table("liked_to", SqlAlchemyBase.metadata,
                  Column("id", Integer, ForeignKey("users.id")),
-                 Column("id_to", Integer, ForeignKey("users.id")))
+                 Column("id_to", Integer, ForeignKey("users.id")),
+                 UniqueConstraint("id", "id_to", name="unique_value_to"))
 liked_from = Table("liked_from", SqlAlchemyBase.metadata,
                    Column("id", Integer, ForeignKey("users.id")),
-                   Column("id_from", Integer, ForeignKey("users.id")))
+                   Column("id_from", Integer, ForeignKey("users.id")),
+                   UniqueConstraint("id", "id_from", name="unique_value_from"))
 
 
 class User(SqlAlchemyBase, SerializerMixin):
@@ -64,3 +66,6 @@ class User(SqlAlchemyBase, SerializerMixin):
 
     def __repr__(self) -> str:
         return str(self.to_dict())
+
+    def set_like(self, session=None) -> None:
+        pass

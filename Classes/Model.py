@@ -20,9 +20,9 @@ class Model(Resource):
                 raise IndexError
             return obj
         except IndexError:
+            session.rollback()
             abort(404, message=f"{self._child_class_name} {id} not found")
         except Exception as ex:
+            session.rollback()
             print(type(ex))
             print(ex)
-        finally:
-            session.rollback()
