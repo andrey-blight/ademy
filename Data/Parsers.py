@@ -17,3 +17,11 @@ user_edit_parser.add_argument("about_yourself", required=False, type=str)
 user_edit_parser.add_argument("sex", required=False, type=int)
 user_edit_parser.add_argument("password", required=False, type=str)
 user_edit_parser.add_argument("email", required=False, type=str)
+
+image_parser = reqparse.RequestParser()
+image_parser.add_argument("user_id", reqparse=True, type=int)
+image_parser.add_argument("image", reqparse=True, type=None)  # TODO придумать тип
+
+image_edit_parser = reqparse.RequestParser()
+image_parser.add_argument("user_id", reqparse=False, type=int)
+image_parser.add_argument("image", reqparse=False, type=None)  # TODO придумать тип
