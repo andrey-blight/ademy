@@ -4,7 +4,6 @@ from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, Table, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.mysql import JSON
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
