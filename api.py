@@ -13,3 +13,6 @@ class MainAPI:
     def _resources(self):
         self.api.add_resource(UserResource, r"/user/<int:user_id>", methods=["GET", "PUT", "DELETE"])
         self.api.add_resource(UserListResource, r"/users", methods=["GET", "POST"])
+
+    def get_api_prefix(self):
+        return self.api.prefix
