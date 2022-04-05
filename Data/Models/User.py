@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 liked_to = Table("liked_to", SqlAlchemyBase.metadata,
                  Column("id", Integer, ForeignKey("users.id")),
@@ -17,7 +18,7 @@ liked_from = Table("liked_from", SqlAlchemyBase.metadata,
                    UniqueConstraint("id", "id_from", name="unique_value_from"))
 
 
-class User(SqlAlchemyBase, SerializerMixin):
+class User(SqlAlchemyBase, SerializerMixin, UserMixin):
     __tablename__ = "users"
     __table_args__ = (
         CheckConstraint("sex IN (1, 2)", name="check_sex"),  # if sex is 1 - Male else sex is Female (ISO/IEC 5218)

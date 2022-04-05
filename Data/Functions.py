@@ -8,9 +8,15 @@ def load_environment_variable() -> None:
 
 def get_models_path(abs_path: str) -> str:
     """Get path for import Models"""
+    import os
     elements = abs_path.split("\\")
+    separator = ''
     if len(elements) < 2 or elements[-2] != "Data":
         elements.extend(("Data", "Models"))
     elif elements[-1] != "Models":
         elements.append("Models")
-    return '\\'.join(el for el in elements)
+    if os.name == 'nt':
+        separator = '\\'
+    elif os.name == 'posix':
+        separator = '/'
+    return separator.join(el for el in elements)
