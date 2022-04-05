@@ -1,4 +1,4 @@
-from Classes.SqlAlchemyDatabase import SqlAlchemyBase
+from Classes.SqlAlchemyDatabase import SqlAlchemyBase, SqlAlchemyDatabase
 
 from datetime import datetime
 
@@ -64,8 +64,15 @@ class User(SqlAlchemyBase, SerializerMixin):
     def check_password(self, password: str) -> bool:
         return check_password_hash(self.hashed_password, password)
 
+    def set_like(self, id: int, session=None) -> None:
+        """Set like to user_to from current user and set user_to like from current user"""
+        if session is None:
+            database = SqlAlchemyDatabase()
+            session = database.create_session()
+        user_to = session.query(User).get(id)
+        self.liked_to.append(user_to)
+        user_to.liked_from.append(self)
+        session.commit()
+
     def __repr__(self) -> str:
         return str(self.to_dict())
-
-    def set_like(self, session=None) -> None:
-        pass
