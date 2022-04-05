@@ -2,7 +2,7 @@ from Classes.Model import Model
 from Data.Models.User import User
 from Data.Parsers import user_parser
 
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from flask import jsonify
 
 
@@ -34,3 +34,7 @@ class UserListResource(Model):
             return jsonify({"message": "User successfully added", "user": user.to_dict()})
         except IntegrityError:
             return jsonify({"Error": "User with such email exists"})
+        except OperationalError as ex:
+            error_handler = ex.args[0].split("'")[1]
+            if error_handler == "check_sex":
+                return jsonify({"Error": "User field sex can be only 1 - male or 2 - female"})

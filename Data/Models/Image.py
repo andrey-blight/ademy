@@ -11,7 +11,7 @@ class Image(SqlAlchemyBase, SerializerMixin):
     __table_args__ = (
         CheckConstraint("count <= 5", name="check_count_for_one_user"),
     )
-    serialize_only = ("id", "user_id", "count")
+    serialize_only = ("id", "user_id", "count", "image")
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
