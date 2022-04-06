@@ -1,10 +1,12 @@
-from werkzeug.datastructures import FileStorage
 from Data.Forms.LoginForm import LoginForm
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from Data.Models.User import User
-from Classes.ImageHandler import ImageHandler
+
+import os
+
+from werkzeug.utils import secure_filename
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, current_user
 
@@ -46,10 +48,10 @@ def login():
 @application.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        file: FileStorage = request.files['file']
-        handler = ImageHandler()
-        bites = handler.get_bytes(file)
-        print(type(bites))
+        file = request.files['file']
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
     return '''
     <!doctype html>
     <title>Загрузить новый файл</title>

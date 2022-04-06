@@ -1,12 +1,7 @@
-import os.path
-
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase, SqlAlchemyBase
-
 from Data.Models.User import User
 from Data.Models.Image import Image
 from Data.Models.Interests import Interest
-from PIL import Image as PILImage
-import io
 from sqlalchemy.exc import OperationalError
 
 
@@ -37,18 +32,13 @@ def create_interests():
 
 
 def create_images():
-    for i in range(1, 8):
+    for i in range(1, 6):
         try:
             source = fr"test_images/{i}.jpg"
-            image_jpg = PILImage.open(source)  # Open image
-            bite = io.BytesIO()
-            image_jpg.save(bite, format="webp")  # Convert image to webp
-            im_bytes = bite.getvalue()
             session = db.create_session()
-            db_img = Image(user_id=3, image=im_bytes)
+            db_img = Image(user_id=3, image_href=source)
             u3 = session.query(User).get(3)
             u3.images.append(db_img)
-            # session.add(db_img)
             session.commit()
         except OperationalError as ex:
             print(ex.args[0].split("'")[1])

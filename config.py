@@ -7,6 +7,7 @@ load_environment_variable()
 
 class Config:
     SECRET_KEY = environ.get("SECRET_KEY")
+    UPLOAD_FOLDER = r"static/user_images"
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
 
