@@ -1,10 +1,11 @@
+from werkzeug.datastructures import FileStorage
 from Data.Forms.LoginForm import LoginForm
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from Data.Models.User import User
-
-from flask import Flask, render_template, redirect
+from Classes.ImageHandler import ImageHandler
+from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, current_user
 
 application = Flask(__name__, template_folder="templates")
@@ -40,6 +41,25 @@ def login():
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template("login.html", title="Авторизация", form=form)
+
+
+@application.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        file: FileStorage = request.files['file']
+        handler = ImageHandler()
+        bites = handler.get_bytes(file)
+        print(type(bites))
+    return '''
+    <!doctype html>
+    <title>Загрузить новый файл</title>
+    <h1>Загрузить новый файл</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    </html>
+    '''
 
 
 if __name__ == "__main__":
