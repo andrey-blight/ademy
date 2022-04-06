@@ -5,9 +5,9 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from Data.Models.User import User
 
 from flask import Flask, render_template, redirect
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, current_user
 
-application = Flask(__name__, template_folder=r"templates")
+application = Flask(__name__, template_folder="templates")
 application.config.from_object("config.DevConfig")
 
 API = MainAPI(application)
@@ -18,7 +18,7 @@ db = SqlAlchemyDatabase()
 login_manager = LoginManager()
 login_manager.init_app(application)
 
-# add log
+
 @login_manager.user_loader
 def load_user(user_id):
     session = db.create_session()
@@ -27,13 +27,15 @@ def load_user(user_id):
 
 @application.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect('/')
     form = LoginForm()
     if form.validate_on_submit():
         db_session = db.create_session()
         user = db_session.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/")
+            return redirect('/')
         return render_template("login.html",
                                message="Неправильный логин или пароль",
                                form=form)

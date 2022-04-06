@@ -3,7 +3,7 @@ from Data.Parsers import user_edit_parser
 
 from flask import jsonify
 from flask.wrappers import Response
-from sqlalchemy.exc import OperationalError
+from sqlalchemy.exc import OperationalError, IntegrityError
 
 
 class UserResource(Model):
@@ -30,6 +30,9 @@ class UserResource(Model):
             error_handler = ex.args[0].split("'")[1]
             if error_handler == "check_sex":
                 return jsonify({"Error": "User field sex can be only 1 - male or 2 - female"})
+        except IntegrityError:
+            session.rollback()
+            return jsonify({"Error": "User with such email exists"})
         except Exception as ex:
             session.rollback()
             print(ex)

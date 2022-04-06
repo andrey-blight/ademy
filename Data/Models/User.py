@@ -36,6 +36,7 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
     email = Column(String(25), unique=True)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
     images = relationship("Image", cascade="all, delete", back_populates="user")
     interests = relationship("Interest", secondary="user_to_interest", back_populates="users")
     liked_to = relationship("User",

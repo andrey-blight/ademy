@@ -1,7 +1,7 @@
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase, SqlAlchemyBase
 
 from sqlalchemy import Column, Integer, CheckConstraint, ForeignKey
-from sqlalchemy.orm import relationship, Session
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects import mysql
 from sqlalchemy_serializer import SerializerMixin
 
