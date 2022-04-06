@@ -6,10 +6,10 @@ from Classes.Token import Token
 from Data.Models.User import User
 from Data.Functions import load_environment_variable
 
-from flask import Flask, render_template, request, make_response, redirect
+from flask import Flask, render_template, redirect
 from flask_login import LoginManager, login_user
 
-application = Flask(__name__, template_folder=r"Data/static/templates")
+application = Flask(__name__, template_folder=r"templates")
 application.config.from_object("config.DevConfig")
 
 load_environment_variable()
