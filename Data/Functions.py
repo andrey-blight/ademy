@@ -1,4 +1,10 @@
 import os
+from functools import wraps
+
+from cryptography.fernet import InvalidToken
+from flask import request, jsonify
+
+from Classes.Token import Token
 
 
 def load_environment_variable() -> None:
@@ -22,3 +28,21 @@ def get_models_path(abs_path: str) -> str:
     elif os.name == 'posix':
         separator: str = '/'
     return separator.join(el for el in elements)
+
+
+def token_required(f):
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        token = None
+        if 'x-access-tokens' in request.headers:
+            token = request.headers['x-access-tokens']
+        else:
+            return jsonify({'message': 'valid token is missing'})
+        try:
+            if not Token().is_token_valid(token):
+                return jsonify({'message': 'token is invalid'})
+        except InvalidToken:
+            return jsonify({'message': 'token is invalid'})
+        return f(*args, **kwargs)
+
+    return decorator

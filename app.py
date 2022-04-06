@@ -2,13 +2,17 @@ from Data.Forms.LoginForm import LoginForm
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
+from Classes.Token import Token
 from Data.Models.User import User
+from Data.Functions import load_environment_variable
 
 from flask import Flask, render_template, request, make_response, redirect
 from flask_login import LoginManager, login_user
 
 application = Flask(__name__, template_folder=r"Data/static/templates")
 application.config.from_object("config.DevConfig")
+
+load_environment_variable()
 
 API = MainAPI(application)
 server = ServerBuilder().get_server()
@@ -33,7 +37,14 @@ def login():
         user = db_session.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/")
+            access_token = Token()
+            response = make_response(render_template("login.html", title="Авторизация", message="Успешно!", form=form))
+            response.set_cookie(
+                "access_token",
+                access_token.get_token(user.id),
+                max_age=60 * 60 * 24 * 265 * 2
+            )
+            return response
         return render_template("login.html",
                                message="Неправильный логин или пароль",
                                form=form)
