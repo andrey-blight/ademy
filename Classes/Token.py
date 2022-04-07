@@ -2,7 +2,6 @@ from Classes.ServerBuilder import ServerBuilder
 
 from os import environ
 
-import requests
 from cryptography.fernet import Fernet
 
 
@@ -18,9 +17,13 @@ class Token:
         # Decrypting encrypted token
         decrypted_token = self._encryption.decrypt(bytes(encrypted_token.encode("utf-8")))
         data = decrypted_token.decode("utf-8").split('.')
-        # Request to API
-        request = requests.get(f'{self._server_host}/api/v1/user/{data[1]}')
-        if request.status_code != 200:
+        # check user
+        from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
+        from Data.Models.User import User
+        database = SqlAlchemyDatabase()
+        session = database.create_session()
+        user = session.query(User).get(int(data[1]))
+        if user is None:
             return False
         # Checking valid secret key, valid user id and expiration time
         if data[0] == str(self._secret_key) and int(data[2]) == self.TIME_EXPIRATION:
