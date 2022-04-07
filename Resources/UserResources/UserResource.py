@@ -1,5 +1,6 @@
 from Classes.Model import Model
 from Data.Parsers import user_edit_parser
+from Data.Functions import token_required
 
 from flask import jsonify
 from flask.wrappers import Response
@@ -10,11 +11,13 @@ class UserResource(Model):
     def __init__(self):
         super().__init__("User")
 
+    @token_required
     def get(self, user_id: int) -> Response:
         session = self.db.create_session()
         user = self.get_object(user_id, session)
         return jsonify(user.to_dict())
 
+    @token_required
     def put(self, user_id: int) -> Response:
         args = user_edit_parser.parse_args()
         session = self.db.create_session()
@@ -38,6 +41,7 @@ class UserResource(Model):
             print(ex)
             return jsonify({"Error": "Unexpected"})
 
+    @token_required
     def delete(self, user_id: int) -> Response:
         session = self.db.create_session()
         user = self.get_object(user_id, session)

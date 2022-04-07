@@ -1,4 +1,3 @@
-from Data.Functions import load_environment_variable
 from os import environ
 
 
@@ -10,7 +9,6 @@ class ServerBuilder:
     SLASH: str = '/'
 
     def __init__(self):
-        load_environment_variable()
         self._string: str = ''
         self.host: str = environ.get("SERVER_HOST")
         self.port: str = str(environ.get("SERVER_PORT"))
