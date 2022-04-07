@@ -33,16 +33,13 @@ def get_models_path(abs_path: str) -> str:
 def token_required(f):
     @wraps(f)
     def decorator(*args, **kwargs):
-        token = None
-        if 'x-access-tokens' in request.headers:
-            token = request.headers['x-access-tokens']
-        else:
+        if 'x-access-tokens' not in request.headers:
             return jsonify({'message': 'valid token is missing'})
+        token = request.headers['x-access-tokens']
         try:
             if not Token().is_token_valid(token):
                 return jsonify({'message': 'token is invalid'})
         except InvalidToken:
             return jsonify({'message': 'token is invalid'})
         return f(*args, **kwargs)
-
     return decorator

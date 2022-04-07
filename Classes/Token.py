@@ -1,9 +1,9 @@
+from Classes.ServerBuilder import ServerBuilder
+
 from os import environ
 
 import requests
 from cryptography.fernet import Fernet
-
-from Classes.ServerBuilder import ServerBuilder
 
 
 class Token:
@@ -29,11 +29,11 @@ class Token:
             return False
 
     def get_token(self, user_id: int) -> str:
-        data: dict = {
-            "key": f"{self._secret_key}",
-            "id": f"{user_id}",
-            "expiration": f"{self.TIME_EXPIRATION}"
+        data = {
+            "key": self._secret_key,
+            "id": str(user_id),
+            "expiration": str(self.TIME_EXPIRATION)
         }
-        token: str = f"{data['key']}.{data['id']}.{data['expiration']}"
+        token = f"{data['key']}.{data['id']}.{data['expiration']}"
         encrypted_token = self._encryption.encrypt(bytes(token.encode("utf-8"))).decode("utf-8")
         return encrypted_token
