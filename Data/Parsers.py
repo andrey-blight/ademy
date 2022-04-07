@@ -22,4 +22,5 @@ image_parser = reqparse.RequestParser()
 image_parser.add_argument("image_href", required=True, type=str)
 
 image_edit_parser = reqparse.RequestParser()
-image_parser.add_argument("image_href", required=False, type=str)
+image_edit_parser.add_argument("user_id", required=False, type=int)
+image_edit_parser.add_argument("image_href", required=False, type=str)

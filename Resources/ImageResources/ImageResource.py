@@ -1,14 +1,16 @@
 from Classes.Model import Model
+from Data.Models.User import User
 from Data.Parsers import image_edit_parser
 
 from flask import jsonify
 from flask.wrappers import Response
+from flask_restful import abort
 from sqlalchemy.exc import OperationalError
 
 
-class UserResource(Model):
+class ImageResource(Model):
     def __init__(self):
-        super().__init__("User")
+        super().__init__("Image")
 
     def get(self, image_id: int) -> Response:
         session = self.db.create_session()
@@ -20,11 +22,18 @@ class UserResource(Model):
         session = self.db.create_session()
         image = self.get_object(image_id, session)
         try:
+            if args["user_id"] is not None:
+                user = session.query(User).get(args["user_id"])
+                if user is None:
+                    raise IndexError
             for arg in args:
                 if args[arg] is not None:
                     setattr(image, arg, args[arg])
             session.commit()
             return jsonify({"message": "Image successfully updated", "image": image.to_dict()})
+        except IndexError:
+            session.rollback()
+            abort(404, message=f"User {args['user_id']} not found")
         except OperationalError as ex:
             session.rollback()
             error_handler = ex.args[0].split("'")[1]

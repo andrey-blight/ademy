@@ -1,15 +1,15 @@
-from Data.Forms.LoginForm import LoginForm
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from Classes.Token import Token
 from Data.Models.User import User
+from Data.Forms.LoginForm import LoginForm
 from Data.Functions import load_environment_variable
 
 import os
 
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, make_response
 from flask_login import LoginManager, login_user, current_user
 
 application = Flask(__name__, template_folder="templates")
