@@ -1,7 +1,7 @@
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase, SqlAlchemyBase
 from Data.Models.User import User
 from Data.Models.Image import Image
-from Data.Models.Interests import Interest
+from Data.Models.Interest import Interest
 from sqlalchemy.exc import OperationalError
 
 
