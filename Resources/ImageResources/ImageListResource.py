@@ -2,6 +2,7 @@ from Classes.Model import Model
 from Data.Models.Image import Image
 from Data.Models.User import User
 from Data.Parsers import image_parser
+from Data.Functions import token_required
 
 from sqlalchemy.exc import OperationalError
 from flask import jsonify
@@ -13,6 +14,7 @@ class ImageListResource(Model):
     def __init__(self):
         super().__init__("Image")
 
+    @token_required
     def get(self, user_id: int) -> Response:
         session = self.db.create_session()
         try:
@@ -26,7 +28,7 @@ class ImageListResource(Model):
             return jsonify([item.to_dict() for item in images])
         except IndexError:
             abort(404, message=f"User {user_id} not found")
-
+    @token_required
     def post(self, user_id: int) -> Response:
         args = image_parser.parse_args()
         session = self.db.create_session()

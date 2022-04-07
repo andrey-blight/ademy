@@ -1,4 +1,5 @@
 from Classes.Model import Model
+from Data.Functions import token_required
 from Data.Models.User import User
 from Data.Parsers import image_edit_parser
 
@@ -12,11 +13,13 @@ class ImageResource(Model):
     def __init__(self):
         super().__init__("Image")
 
+    @token_required
     def get(self, image_id: int) -> Response:
         session = self.db.create_session()
         image = self.get_object(image_id, session)
         return jsonify(image.to_dict())
 
+    @token_required
     def put(self, image_id: int) -> Response:
         args = image_edit_parser.parse_args()
         session = self.db.create_session()
@@ -44,6 +47,7 @@ class ImageResource(Model):
             print(ex)
             return jsonify({"Error": "Unexpected"})
 
+    @token_required
     def delete(self, image_id: int) -> Response:
         session = self.db.create_session()
         image = self.get_object(image_id, session)

@@ -3,7 +3,7 @@ from Data.Models.User import User
 from Data.Parsers import user_parser
 from Data.Functions import token_required
 
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from flask import jsonify
 from flask.wrappers import Response
 
