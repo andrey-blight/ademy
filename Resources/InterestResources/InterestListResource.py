@@ -9,7 +9,7 @@ from flask.wrappers import Response
 from flask_restful import abort
 
 
-class ImageListResource(Model):
+class InterestListResource(Model):
     def __init__(self):
         super().__init__("Interest")
 
@@ -39,14 +39,10 @@ class ImageListResource(Model):
             user = session.query(User).get(user_id)
             if user is None:
                 raise IndexError
-            user.images.append(interest)
+            user.interests.append(interest)
             session.commit()
             return jsonify(
                 {"message": f"Interest successfully added to User {user_id}", "interest": interest.to_dict()})
         except IndexError:
             session.rollback()
             abort(404, message=f"User {user_id} not found")
-        except Exception as ex:
-            session.rollback()
-            print(ex)
-            return jsonify({"Error": f"Unexpected"})
