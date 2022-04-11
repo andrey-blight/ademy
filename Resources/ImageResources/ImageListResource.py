@@ -28,6 +28,7 @@ class ImageListResource(Model):
             return jsonify([item.to_dict() for item in images])
         except IndexError:
             abort(404, message=f"User {user_id} not found")
+
     @token_required
     def post(self, user_id: int) -> Response:
         args = image_parser.parse_args()
