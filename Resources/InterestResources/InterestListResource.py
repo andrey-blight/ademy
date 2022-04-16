@@ -9,7 +9,6 @@ class InterestListResource(Model):
     def __init__(self):
         super().__init__("Interest")
 
-    @token_required
     def get(self) -> Response:
         session = self.db.create_session()
         interests = session.query(self.Model).all()

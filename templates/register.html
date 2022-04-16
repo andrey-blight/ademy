@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <!-- TODO: Сделать autocomplete="on" у полей -->
+    <span class="progress_bar"></span>
+    <div class="main__register">
+        <form action="/register" method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="register__component rules__list">
+                <div class="header">
+                    <img class="logo" src="/static/img/logo.svg" alt="">
+                    <h2>Добро пожаловать в Ademy!</h2>
+                    <p class="text_muted">Пожалуйста, соблюдайте следующие правила:</p>
+                </div>
+                <ul>
+                    <li>
+                        <h2 class="li_text">Будьте собой.</h2>
+                        <p class="li_text text_muted">Ваши фото, возраст и информация о себе должны быть настоящими.</p>
+                    </li>
+                    <li>
+                        <h2 class="li_text">Помните о безопасности.</h2>
+                        <p class="li_text text_muted">Не торопитесь делиться своей личной информацией. <b>Безопасность
+                            превыше всего.</b></p>
+                    </li>
+                    <li>
+                        <h2 class="li_text">Ведите себя достойно.</h2>
+                        <p class="li_text text_muted">Уважайте других и относитесь к ним так, как вы бы хотели, чтобы
+                            они относились к Вам.</p>
+                    </li>
+                    <li>
+                        <h2 class="li_text">Действуйте решительно.</h2>
+                        <p class="li_text text_muted">Всегда сообщайте о неподобающем поведении.</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="register__component name__input">
+                <div class="wrap">
+                    <h1>Меня зовут</h1>
+                    {{ form.name(placeholder="Укажите имя", autocomplete="on") }}
+                </div>
+            </div>
+            <div class="register__component surname__input">
+                <div class="wrap">
+                    <h1>Меня зовут</h1>
+                    {{ form.surname(placeholder="Укажите фамилию") }}
+                </div>
+            </div>
+            <div class="register__component age__input">
+                <div class="wrap">
+                    <h1>Мой возраст</h1>
+                    {{ form.age(placeholder="12") }}
+                </div>
+            </div>
+            <div class="register__component sex__input">
+                <div class="wrap">
+                    <h1>Мой пол</h1>
+                    {{ form.sex() }}
+                </div>
+            </div>
+            <div class="register__component interests__input">
+                <div class="wrap">
+                    <h1>Мои интересы</h1>
+                    <div class="list__interests">
+                    </div>
+                </div>
+            </div>
+            <div class="register__component avatar__input">
+                <div class="wrap">
+                    <h1>Моя аватарка</h1>
+                    {{ form.avatar(placeholder="Выберите файл", id="file", class="input-file") }}
+                    <label for="file" class="btn btn-tertiary js-label-file">
+                        <img class="icon-file-upload" src="/static/img/upload.svg" alt="">
+                        <span class="js-file">Загрузить файл</span>
+                    </label>
+                </div>
+            </div>
+            <div class="register__component password__input">
+                <div class="wrap">
+                    <h1>Мой пароль</h1>
+                    {{ form.password(placeholder="Введите пароль") }}
+                    {#                    <input placeholder="Введите пароль" type="password">#}
+                </div>
+            </div>
+            <div class="register__component email__input">
+                <div class="wrap">
+                    <h1>Моя почта</h1>
+                    {% if form.errors %}
+                        {% for error in form.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.email(placeholder="Введите почту") }}
+                    <button type="submit">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+                </div>
+            </div>
+            <div class="pagination">
+                <button type="button" class="prev">Назад ←</button>
+                <button type="button" class="next">Вперед →</button>
+            </div>
+        </form>
+        <!-- <div class="register__component end__registration">
+               <h1>Успешная регистрация</h1>
+               <div class="tick__animation">
+                   <div class="wrapper">
+                       <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                           <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                           <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                       </svg>
+                   </div>
+               </div>
+               <a class="button main_system_button" href="login.html">Войти</a>
+           </div> -->
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/index.js"></script>
+{% endblock %}

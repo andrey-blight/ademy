@@ -4,6 +4,7 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from Classes.Token import Token
 from Data.Models.User import User
 from Data.Forms.LoginForm import LoginForm
+from Data.Forms.RegisterForm import RegisterForm
 from Data.Functions import load_environment_variable
 
 import os
@@ -56,7 +57,26 @@ def login():
     return render_template("login.html", title="Авторизация", form=form)
 
 
-@application.route('/', methods=['GET', 'POST'])
+@application.route("/register", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect('/')
+    form = RegisterForm()
+    if request.method == "GET":
+        return render_template("register.html", title="Регистрация", form=form)
+    else:
+        if form.validate_on_submit():
+            return render_template("register.html", title="Регистрация", form=form, mess="dfdfdf")
+
+
+# TODO: Проверять, если access_token есть, то делать редирект на страницу с подбором пользователей
+@application.route('/', methods=["GET"])
+def index():
+    return render_template("index.html", title="Главная")
+
+
+# Test route
+@application.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         file = request.files['file']
