@@ -1,3 +1,6 @@
+import pprint
+from random import randint
+
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
@@ -61,24 +64,37 @@ def login():
 def register():
     if current_user.is_authenticated:
         return redirect('/')
-    # form = RegisterForm()
-    # if request.method == "GET":
-    #     return render_template("test_register.html", title="Регистрация", form=form)
-    # elif request.method == "POST":
-    #     if form.validate_on_submit():
-    #         print("All is good")
-    #         return redirect("/success")
-    #     else:
-    #         print(request.form)
-    #         return render_template(
-    #             "test_register.html",
-    #             title="Регистрация",
-    #             form=form,
-    #             message="ERROR"
-    #         )
     form = RegisterForm()
-    # Если все хорошо
     if form.validate_on_submit():
+        json_dict = {}
+        data = dict(request.form)
+        interests = []
+        for key, val in data.items():
+            if key.startswith("interests_value_"):
+                interests.append(val)
+        if data["sex"] == "Мужской":
+            data["sex"] = 1
+        elif data["sex"] == "Женский":
+            data["sex"] = 2
+        json_dict["name"] = data["name"]
+        json_dict["surname"] = data["surname"]
+        json_dict["age"] = int(data["age"])
+        json_dict["sex"] = data["sex"]
+        json_dict["password"] = data["password"]
+        json_dict["email"] = data["email"]
+        json_dict["interests"] = interests
+        # # TODO:Создать функцию сохранения файла, которая возвращает путь сохранения
+        # file = request.files['avatar']
+        # img_path = None
+        # if file:
+        #     # TODO:Придумать под каким именем сохранять фотку
+        #     img_name = str(randint(1, 100000)) + ".jpg"
+        #     img_path = os.path.join(application.config['UPLOAD_FOLDER'], img_name)
+        #     file.save(img_path)
+        # json_dict["image"] = {
+        #     "image_href": img_path
+        # }
+        pprint.pprint(json_dict)
         return redirect('/success')
     return render_template('register.html', title='Регистрация', form=form)
 

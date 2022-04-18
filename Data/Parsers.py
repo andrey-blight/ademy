@@ -8,6 +8,7 @@ user_parser.add_argument("about_yourself", required=False, type=str)
 user_parser.add_argument("sex", required=True, type=int)
 user_parser.add_argument("password", required=True, type=str)
 user_parser.add_argument("email", required=True, type=str)
+user_parser.add_argument("interests", required=True, type=str, action="append")
 
 user_edit_parser = reqparse.RequestParser()
 user_edit_parser.add_argument("name", required=False, type=str)
