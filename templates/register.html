@@ -4,8 +4,15 @@
     <!-- TODO: Сделать autocomplete="on" у полей -->
     <span class="progress_bar"></span>
     <div class="main__register">
-        <form action="/register" method="post" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
+        <form action="" method="post" enctype="multipart/form-data" novalidate>
+            {% for field in form if field.name != 'csrf_token' %}
+                <div>
+                    {% for error in field.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {{ form.csrf_token }}
             <div class="register__component rules__list">
                 <div class="header">
                     <img class="logo" src="/static/img/logo.svg" alt="">
@@ -84,11 +91,6 @@
             <div class="register__component email__input">
                 <div class="wrap">
                     <h1>Моя почта</h1>
-                    {% if form.errors %}
-                        {% for error in form.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    {% endif %}
                     {{ form.email(placeholder="Введите почту") }}
                     <button type="submit">ЗАРЕГИСТРИРОВАТЬСЯ</button>
                 </div>

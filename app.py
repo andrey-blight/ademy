@@ -61,12 +61,26 @@ def login():
 def register():
     if current_user.is_authenticated:
         return redirect('/')
+    # form = RegisterForm()
+    # if request.method == "GET":
+    #     return render_template("test_register.html", title="Регистрация", form=form)
+    # elif request.method == "POST":
+    #     if form.validate_on_submit():
+    #         print("All is good")
+    #         return redirect("/success")
+    #     else:
+    #         print(request.form)
+    #         return render_template(
+    #             "test_register.html",
+    #             title="Регистрация",
+    #             form=form,
+    #             message="ERROR"
+    #         )
     form = RegisterForm()
-    if request.method == "GET":
-        return render_template("register.html", title="Регистрация", form=form)
-    else:
-        if form.validate_on_submit():
-            return render_template("register.html", title="Регистрация", form=form, mess="dfdfdf")
+    # Если все хорошо
+    if form.validate_on_submit():
+        return redirect('/success')
+    return render_template('register.html', title='Регистрация', form=form)
 
 
 # TODO: Проверять, если access_token есть, то делать редирект на страницу с подбором пользователей
