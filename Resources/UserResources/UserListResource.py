@@ -34,12 +34,12 @@ class UserListResource(Model):
         )
         session = self.db.create_session()
         try:
-            # TODO:отловить ошибки
-            for interest_name in args["interests"]:
-                interest_obj = session.query(Interest).filter(Interest.name == interest_name).first()
-                user.interests.append(interest_obj)
+            # for interest_name in args["interests"]:
+            #     interest_obj = session.query(Interest).filter(Interest.name == interest_name).first()
+            #     user.interests.append(interest_obj)
             session.add(user)
             session.commit()
+            user_id = user.id
             return jsonify({"message": "User successfully added", "user": user.to_dict()})
         except IntegrityError:
             session.rollback()

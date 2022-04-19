@@ -1,5 +1,4 @@
 import pprint
-from random import randint
 
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
@@ -11,7 +10,9 @@ from Data.Forms.RegisterForm import RegisterForm
 from Data.Functions import load_environment_variable
 
 import os
+import json
 
+import requests
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, redirect, request, make_response
 from flask_login import LoginManager, login_user, current_user
@@ -69,9 +70,9 @@ def register():
         json_dict = {}
         data = dict(request.form)
         interests = []
-        for key, val in data.items():
-            if key.startswith("interests_value_"):
-                interests.append(val)
+        for key in data.keys():
+            if key.startswith("interests_"):
+                interests.append(key.split("interests_")[0])
         if data["sex"] == "Мужской":
             data["sex"] = 1
         elif data["sex"] == "Женский":
@@ -94,7 +95,9 @@ def register():
         # json_dict["image"] = {
         #     "image_href": img_path
         # }
-        pprint.pprint(json_dict)
+        url = "http://localhost:8080/api/v1/users"
+        user_json = requests.post(url, json=json_dict)
+        pprint.pprint(user_json)
         return redirect('/success')
     return render_template('register.html', title='Регистрация', form=form)
 

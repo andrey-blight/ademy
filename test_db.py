@@ -1,3 +1,8 @@
+import json
+import pprint
+
+import requests
+
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase, SqlAlchemyBase
 from Data.Models.User import User
 from Data.Models.Image import Image
@@ -45,7 +50,12 @@ def create_images():
 
 
 if __name__ == '__main__':
-    db = SqlAlchemyDatabase(create=True, delete=True)
-    create_users()
-    create_images()
-    create_interests()
+    # db = SqlAlchemyDatabase(create=True, delete=True)
+    # create_users()
+    # create_images()
+    # create_interests()
+    json_dict = {'name': 'Andrey', 'surname': 'Kizhinov', 'age': 18, 'sex': 1, 'password': 'ывакауцп6',
+                 'email': 'kizhinov@gmail.com', 'interests': ['', '']}
+    url = "http://localhost:8080/api/v1/users"
+    user_json = requests.post(url, json=json_dict).json()
+    print(user_json)
