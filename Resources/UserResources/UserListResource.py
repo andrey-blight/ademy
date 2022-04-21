@@ -3,6 +3,7 @@ from Data.Models.User import User
 from Data.Parsers import user_parser
 from Data.Functions import token_required
 from Data.Models.Interest import Interest
+from Data.Models.Image import Image
 
 from sqlalchemy.exc import IntegrityError, OperationalError
 from flask import jsonify
@@ -34,12 +35,16 @@ class UserListResource(Model):
         )
         session = self.db.create_session()
         try:
+            # TODO:Добавить интересы после комита Кирила
             # for interest_name in args["interests"]:
             #     interest_obj = session.query(Interest).filter(Interest.name == interest_name).first()
             #     user.interests.append(interest_obj)
             session.add(user)
             session.commit()
-            user_id = user.id
+            filename = f"{user.id}_1.jpg"
+            img = Image(user_id=user.id, image_href=filename)
+            user.images.append(img)
+            session.commit()
             return jsonify({"message": "User successfully added", "user": user.to_dict()})
         except IntegrityError:
             session.rollback()

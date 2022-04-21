@@ -1,5 +1,3 @@
-import pprint
-
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
@@ -10,10 +8,8 @@ from Data.Forms.RegisterForm import RegisterForm
 from Data.Functions import load_environment_variable
 
 import os
-import json
 
 import requests
-from werkzeug.utils import secure_filename
 from flask import Flask, render_template, redirect, request, make_response
 from flask_login import LoginManager, login_user, current_user
 
@@ -84,48 +80,20 @@ def register():
         json_dict["password"] = data["password"]
         json_dict["email"] = data["email"]
         json_dict["interests"] = interests
-        # # TODO:Создать функцию сохранения файла, которая возвращает путь сохранения
-        # file = request.files['avatar']
-        # img_path = None
-        # if file:
-        #     # TODO:Придумать под каким именем сохранять фотку
-        #     img_name = str(randint(1, 100000)) + ".jpg"
-        #     img_path = os.path.join(application.config['UPLOAD_FOLDER'], img_name)
-        #     file.save(img_path)
-        # json_dict["image"] = {
-        #     "image_href": img_path
-        # }
         url = "http://localhost:8080/api/v1/users"
-        user_json = requests.post(url, json=json_dict)
-        pprint.pprint(user_json)
-        return redirect('/success')
+        user_json = requests.post(url, json=json_dict).json()  # add user using api
+        filename = user_json["user"]["images"][0]["image_href"]  # get image filename
+        # TODO: проверить расширения файлов
+        file = request.files['avatar']
+        img_path = os.path.join(application.config['UPLOAD_FOLDER'], filename)
+        file.save(img_path)  # save image to upload folder
+        return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
 
 
-# TODO: Проверять, если access_token есть, то делать редирект на страницу с подбором пользователей
 @application.route('/', methods=["GET"])
 def index():
     return render_template("index.html", title="Главная")
-
-
-# Test route
-@application.route('/upload_file', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
-    return '''
-    <!doctype html>
-    <title>Загрузить новый файл</title>
-    <h1>Загрузить новый файл</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    </html>
-    '''
 
 
 if __name__ == "__main__":

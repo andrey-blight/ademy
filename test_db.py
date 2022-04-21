@@ -12,7 +12,7 @@ from sqlalchemy.exc import OperationalError
 
 def create_users():
     session = db.create_session()
-    u1 = User(name="Andrey", surname="Kizhinov", age=17, sex=1, password="12djfefd", email="kizhinov05@gmail.com")
+    u1 = User(name="Nasty", surname="Polykova", age=14, sex=2, password="484365", email="NastyPol@gmail.com")
     u2 = User(name="Daria", surname="Lavrenteva", age=17, sex=2, password="eifavb", email="Daria@gmail.com")
     u3 = User(name="Vadim", surname="Dragan", age=16, sex=1, password="weqifl", email="Vadim@gmail.com")
     session.add_all([u1, u2, u3])
@@ -50,12 +50,12 @@ def create_images():
 
 
 if __name__ == '__main__':
-    # db = SqlAlchemyDatabase(create=True, delete=True)
-    # create_users()
-    # create_images()
-    # create_interests()
-    json_dict = {'name': 'Andrey', 'surname': 'Kizhinov', 'age': 18, 'sex': 1, 'password': 'ывакауцп6',
-                 'email': 'kizhinov@gmail.com', 'interests': ['', '']}
-    url = "http://localhost:8080/api/v1/users"
-    user_json = requests.post(url, json=json_dict).json()
-    print(user_json)
+    db = SqlAlchemyDatabase(create=True, delete=True)
+    create_users()
+    create_images()
+    create_interests()
+    # json_dict = {'name': 'Andrey', 'surname': 'Kizhinov', 'age': 18, 'sex': 1, 'password': 'ывакауцп6',
+    #              'email': 'kizhinov@gmail.com', 'interests': ['', '']}
+    # url = "http://localhost:8080/api/v1/users"
+    # user_json = requests.post(url, json=json_dict).json()
+    # print(user_json)
