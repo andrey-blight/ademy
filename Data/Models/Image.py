@@ -28,4 +28,5 @@ class Image(SqlAlchemyBase, SerializerMixin):
         if session is None:
             database = SqlAlchemyDatabase()
             session = database.create_session()
-        self.count = session.query(Image).where(self.user_id == Image.user_id).count() + 1
+        self.count = session.query(Image).where(
+            self.user_id == Image.user_id).count() + 1

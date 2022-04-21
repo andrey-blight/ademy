@@ -2,7 +2,8 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyBase, SqlAlchemyDatabase
 
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, Table, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, \
+    Table, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,10 +22,12 @@ liked_from = Table("liked_from", SqlAlchemyBase.metadata,
 class User(SqlAlchemyBase, SerializerMixin, UserMixin):
     __tablename__ = "users"
     __table_args__ = (
-        CheckConstraint("sex IN (1, 2)", name="check_sex"),  # if sex is 1 - Male else sex is Female (ISO/IEC 5218)
+        CheckConstraint("sex IN (1, 2)", name="check_sex"),
+        # if sex is 1 - Male else sex is Female (ISO/IEC 5218)
     )
     serialize_only = ("id", "name", "surname", "age", "about_yourself",
-                      "sex", "hashed_password", "email", "created_at", "updated_at", "images", "interests")
+                      "sex", "hashed_password", "email", "created_at",
+                      "updated_at", "images", "interests")
 
     id = Column(Integer, primary_key=True)
     name = Column(String(25), nullable=False)
@@ -37,20 +40,25 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
-    images = relationship("Image", cascade="all, delete", back_populates="user")
-    interests = relationship("Interest", secondary="user_to_interest", back_populates="users")
+    images = relationship("Image", cascade="all, delete",
+                          back_populates="user")
+    interests = relationship("Interest", secondary="user_to_interest",
+                             back_populates="users")
+    # Все пользователи которым текущий пользователь поставил лайк
     liked_to = relationship("User",
                             secondary="liked_to",
                             primaryjoin=(id == liked_to.c.id),
                             secondaryjoin=(id == liked_to.c.id_to)
-                            )  # Все пользователи которым текущий пользователь поставил лайк
+                            )
+    # Все пользователи которые поставили лайк текущему пользователю
     liked_from = relationship("User",
                               secondary="liked_from",
                               primaryjoin=(id == liked_from.c.id),
                               secondaryjoin=(id == liked_from.c.id_from)
-                              )  # Все пользователи которые поставили лайк текущему пользователю
+                              )
 
-    def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2], password: str, email: str,
+    def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2],
+                 password: str, email: str,
                  about_yourself=None):
         self.name = name
         self.surname = surname
@@ -67,7 +75,8 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
         return check_password_hash(self.hashed_password, password)
 
     def set_like(self, id: int, session=None) -> None:
-        """Set like to user_to from current user and set user_to like from current user"""
+        """Set like to user_to from current user
+         and set user_to like from current user"""
         if session is None:
             database = SqlAlchemyDatabase()
             session = database.create_session()

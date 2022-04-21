@@ -27,12 +27,15 @@ class UserResource(Model):
                 if args[arg] is not None:
                     setattr(user, arg, args[arg])
             session.commit()
-            return jsonify({"message": "User successfully updated", "user": user.to_dict()})
+            return jsonify({"message": "User successfully updated",
+                            "user": user.to_dict()})
         except OperationalError as ex:
             session.rollback()
             error_handler = ex.args[0].split("'")[1]
             if error_handler == "check_sex":
-                return jsonify({"Error": "User field sex can be only 1 - male or 2 - female"})
+                return jsonify({
+                    "Error": "User field sex can be only "
+                             "1 - male or 2 - female"})
         except IntegrityError:
             session.rollback()
             return jsonify({"Error": "User with such email exists"})
@@ -48,7 +51,8 @@ class UserResource(Model):
         try:
             session.delete(user)
             session.commit()
-            return jsonify({"message": "User successfully deleted", "user": user.to_dict()})
+            return jsonify({"message": "User successfully deleted",
+                            "user": user.to_dict()})
         except Exception as ex:
             print(type(ex), ex, sep='\n')
             return jsonify({"Error": "Unexpected"})

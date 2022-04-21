@@ -37,7 +37,8 @@ class UserListResource(Model):
         try:
             # TODO:Добавить интересы после комита Кирила
             # for interest_name in args["interests"]:
-            #     interest_obj = session.query(Interest).filter(Interest.name == interest_name).first()
+            #     interest_obj = session.query(Interest).filter(
+            #         Interest.name == interest_name).first()
             #     user.interests.append(interest_obj)
             session.add(user)
             session.commit()
@@ -45,7 +46,8 @@ class UserListResource(Model):
             img = Image(user_id=user.id, image_href=filename)
             user.images.append(img)
             session.commit()
-            return jsonify({"message": "User successfully added", "user": user.to_dict()})
+            return jsonify(
+                {"message": "User successfully added", "user": user.to_dict()})
         except IntegrityError:
             session.rollback()
             return jsonify({"Error": "User with such email exists"})
@@ -53,4 +55,6 @@ class UserListResource(Model):
             session.rollback()
             error_handler = ex.args[0].split("'")[1]
             if error_handler == "check_sex":
-                return jsonify({"Error": "User field sex can be only 1 - male or 2 - female"})
+                return jsonify({
+                    "Error": "User field sex can "
+                             "be only 1 - male or 2 - female"})

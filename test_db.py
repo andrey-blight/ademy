@@ -12,9 +12,12 @@ from sqlalchemy.exc import OperationalError
 
 def create_users():
     session = db.create_session()
-    u1 = User(name="Nasty", surname="Polykova", age=14, sex=2, password="484365", email="NastyPol@gmail.com")
-    u2 = User(name="Daria", surname="Lavrenteva", age=17, sex=2, password="eifavb", email="Daria@gmail.com")
-    u3 = User(name="Vadim", surname="Dragan", age=16, sex=1, password="weqifl", email="Vadim@gmail.com")
+    u1 = User(name="Nasty", surname="Polykova", age=14, sex=2,
+              password="484365", email="NastyPol@gmail.com")
+    u2 = User(name="Daria", surname="Lavrenteva", age=17, sex=2,
+              password="eifavb", email="Daria@gmail.com")
+    u3 = User(name="Vadim", surname="Dragan", age=16, sex=1, password="weqifl",
+              email="Vadim@gmail.com")
     session.add_all([u1, u2, u3])
     session.commit()
 

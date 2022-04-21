@@ -27,19 +27,25 @@ class SqlAlchemyDatabase:
         if _session:  # if session config created do nothing
             return None
         load_environment_variable()
-        conn_str = environ.get("DEV_MYSQL_URI")  # get connection str from environment variable
+        conn_str = environ.get(
+            "DEV_MYSQL_URI")  # get connection str from environment variable
         engine = create_engine(conn_str, echo=False)
-        _session = sessionmaker(bind=engine, autoflush=False, autocommit=False)  # create session config
+        _session = sessionmaker(bind=engine, autoflush=False,
+                                autocommit=False)  # create session config
         abs_path = os.path.abspath(os.curdir)
         os.chdir(get_models_path(abs_path))
-        files = [el.split('.')[0] for el in os.listdir() if el.endswith(".py")]  # get all files with Models
+        files = [el.split('.')[0] for el in os.listdir() if
+                 el.endswith(".py")]  # get all files with Models
         os.chdir(r"../../")
         for module in files:
-            importlib.import_module("Data.Models." + module)  # import them in current file
+            importlib.import_module(
+                "Data.Models." + module)  # import them in current file
         if delete:
-            SqlAlchemyBase.metadata.drop_all(bind=engine)  # removing Data from database
+            SqlAlchemyBase.metadata.drop_all(
+                bind=engine)  # removing Data from database
         if create:
-            SqlAlchemyBase.metadata.create_all(bind=engine)  # adding Data to database
+            SqlAlchemyBase.metadata.create_all(
+                bind=engine)  # adding Data to database
 
     @staticmethod
     def create_session() -> Session:

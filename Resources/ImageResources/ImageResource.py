@@ -33,7 +33,8 @@ class ImageResource(Model):
                 if args[arg] is not None:
                     setattr(image, arg, args[arg])
             session.commit()
-            return jsonify({"message": "Image successfully updated", "image": image.to_dict()})
+            return jsonify({"message": "Image successfully updated",
+                            "image": image.to_dict()})
         except IndexError:
             session.rollback()
             abort(404, message=f"User {args['user_id']} not found")
@@ -41,7 +42,8 @@ class ImageResource(Model):
             session.rollback()
             error_handler = ex.args[0].split("'")[1]
             if error_handler == "check_count_for_one_user":
-                return jsonify({"Error": "User with such id can have maximum 5 images"})
+                return jsonify(
+                    {"Error": "User with such id can have maximum 5 images"})
         except Exception as ex:
             session.rollback()
             print(ex)
@@ -54,7 +56,8 @@ class ImageResource(Model):
         try:
             session.delete(image)
             session.commit()
-            return jsonify({"message": "Image successfully deleted", "image": image.to_dict()})
+            return jsonify({"message": "Image successfully deleted",
+                            "image": image.to_dict()})
         except Exception as ex:
             print(type(ex), ex, sep='\n')
             return jsonify({"Error": "Unexpected"})

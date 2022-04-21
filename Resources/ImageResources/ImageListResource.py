@@ -43,7 +43,9 @@ class ImageListResource(Model):
                 raise IndexError
             user.images.append(image)
             session.commit()
-            return jsonify({"message": f"Image successfully added to User {user_id}", "image": image.to_dict()})
+            return jsonify(
+                {"message": f"Image successfully added to User {user_id}",
+                 "image": image.to_dict()})
         except IndexError:
             session.rollback()
             abort(404, message=f"User {user_id} not found")
@@ -51,4 +53,5 @@ class ImageListResource(Model):
             session.rollback()
             error_handler = ex.args[0].split("'")[1]
             if error_handler == "check_count_for_one_user":
-                return jsonify({"Error": f"User {user_id} can have maximum 5 images"})
+                return jsonify(
+                    {"Error": f"User {user_id} can have maximum 5 images"})

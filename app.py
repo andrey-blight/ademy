@@ -40,11 +40,14 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         db_session = db.create_session()
-        user = db_session.query(User).filter(User.email == form.email.data).first()
+        user = db_session.query(User).filter(
+            User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             access_token = Token()
-            response = make_response(render_template("login.html", title="Авторизация", message="Успешно!", form=form))
+            response = make_response(
+                render_template("login.html", title="Авторизация",
+                                message="Успешно!", form=form))
             response.set_cookie(
                 "access_token",
                 access_token.get_token(user.id),
@@ -81,8 +84,10 @@ def register():
         json_dict["email"] = data["email"]
         json_dict["interests"] = interests
         url = "http://localhost:8080/api/v1/users"
-        user_json = requests.post(url, json=json_dict).json()  # add user using api
-        filename = user_json["user"]["images"][0]["image_href"]  # get image filename
+        user_json = requests.post(url,
+                                  json=json_dict).json()  # add user using api
+        filename = user_json["user"]["images"][0][
+            "image_href"]  # get image filename
         # TODO: проверить расширения файлов
         file = request.files['avatar']
         img_path = os.path.join(application.config['UPLOAD_FOLDER'], filename)
