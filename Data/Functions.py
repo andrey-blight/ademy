@@ -1,10 +1,10 @@
+from Classes.Token import Token
+
 import os
 from functools import wraps
 
 from cryptography.fernet import InvalidToken
 from flask import request, jsonify
-
-from Classes.Token import Token
 
 
 def load_environment_variable() -> None:
@@ -42,4 +42,5 @@ def token_required(f):
         except InvalidToken:
             return jsonify({'message': 'token is invalid'})
         return f(*args, **kwargs)
+
     return decorator

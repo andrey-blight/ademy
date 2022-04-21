@@ -2,6 +2,8 @@ from Classes.Model import Model
 from Data.Models.User import User
 from Data.Parsers import user_parser
 from Data.Functions import token_required
+from Data.Models.Interest import Interest
+from Data.Models.Image import Image
 
 from sqlalchemy.exc import IntegrityError, OperationalError
 from flask import jsonify
@@ -18,9 +20,9 @@ class UserListResource(Model):
         users = session.query(self.Model).all()
         return jsonify([item.to_dict() for item in users])
 
-    @token_required
+    # TODO:Разобраться с токеном
+    # @token_required
     def post(self) -> Response:
-        # TODO: Возможность добавления к пользователю интересов и фотографий
         args = user_parser.parse_args()
         user = User(
             name=args["name"],
@@ -29,11 +31,19 @@ class UserListResource(Model):
             about_yourself=args.get("about_yourself", None),
             sex=args["sex"],
             password=args["password"],
-            email=args["email"]
+            email=args["email"],
         )
         session = self.db.create_session()
         try:
+            # TODO:Добавить интересы после комита Кирила
+            # for interest_name in args["interests"]:
+            #     interest_obj = session.query(Interest).filter(Interest.name == interest_name).first()
+            #     user.interests.append(interest_obj)
             session.add(user)
+            session.commit()
+            filename = f"{user.id}_1.jpg"
+            img = Image(user_id=user.id, image_href=filename)
+            user.images.append(img)
             session.commit()
             return jsonify({"message": "User successfully added", "user": user.to_dict()})
         except IntegrityError:
