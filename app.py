@@ -1,3 +1,5 @@
+import pprint
+
 from Classes.Lang import Lang
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
@@ -87,6 +89,7 @@ def register():
         url = "http://localhost:8080/api/v1/users"
         user_json = requests.post(url,
                                   json=json_dict).json()  # add user using api
+        pprint.pprint(user_json)
         filename = user_json["user"]["images"][0][
             "image_href"]  # get image filename
         # TODO: проверить расширения файлов
