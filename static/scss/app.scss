@@ -9,6 +9,7 @@ $buttonTextColor: #202020;
 $whiteTextColor: white;
 $mutedTextColor: #303030;
 $mainFontSize: 25px;
+$messageErrorTextColor: #ff0000;
 
 // Mixins
 
@@ -17,6 +18,10 @@ $mainFontSize: 25px;
     flex-direction: $direction;
     align-items: center;
     justify-content: center;
+}
+
+@mixin div-center() {
+    margin: 0;
 }
 
 // Fonts
@@ -38,7 +43,23 @@ $mainFontSize: 25px;
 }
 
 body {
+    height: 100%;
     background: #202020;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto; /*Вертикальная полоса прокрутки для текста*/
+}
+
+.main {
+    flex-grow: 1; /*Предписываем занять все свободное пространство*/
 }
 
 // Index
@@ -53,12 +74,9 @@ body {
 }
 
 .main__system {
-    display: flex;
     color: $whiteTextColor;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 25vh 0px 0px 0px;
+    @include div-center();
+    @include flex-center(column);
 
     .text_message {
         margin-bottom: 20px;
@@ -246,7 +264,7 @@ body {
         background: #ffffff;
     }
 
-    .text_muted {
+    .text-muted {
         color: rgb(186, 186, 186) !important;
     }
 }
@@ -254,6 +272,7 @@ body {
 
 .main__register {
     @include flex-center(column);
+    @include div-center();
     color: $whiteTextColor;
 
     .pagination {
@@ -296,7 +315,7 @@ body {
     }
 
     .rules__list {
-        .text_muted {
+        .text-muted {
             color: rgb(186, 186, 186) !important;
         }
 
@@ -342,6 +361,47 @@ body {
 .main__login {
     @include flex-center(column);
     color: $whiteTextColor;
+
+    @include div-center();
+
+    form {
+        .form-control {
+            margin-top: 15px;
+        }
+
+        button {
+            margin-top: 15px;
+            width: -moz-available;
+            width: -webkit-fill-available;
+            width: fill-available;
+        }
+    }
+}
+
+.app {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .list__users {
+    }
+    .user__description {
+        border-radius: 10px;
+        background-color: #fff;
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        .avatar {
+            img {
+                border-radius: 10px;
+                width: 500px;
+            }
+        }
+        .description {
+            width: 300px;
+            padding: 15px;
+        }
+    }
 }
 
 // Rules
@@ -350,27 +410,42 @@ body {
     width: 64px;
 }
 
-.text_muted {
+.text-muted {
     color: $mutedTextColor !important;
 }
 
-.progress_bar {
+.progress-bar {
     display: block;
     width: 10%;
     height: 10px;
     background: $mainColor;
 }
 
-body::-webkit-scrollbar {
+.message {
+    margin: 15px;
+}
+
+.message-error {
+    color: $whiteTextColor;
+    padding: 5px;
+    background-color: $messageErrorTextColor;
+    width: auto;
+    border-radius: 5px;
+    text-align: center;
+}
+
+// Scroll bar
+
+::-webkit-scrollbar {
     width: 10px;
     border-radius: 5px;
 }
 
-body::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-body::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
@@ -441,13 +516,24 @@ body::-webkit-scrollbar-thumb {
     }
 }
 
+// Header
+
+.wrapper > .header {
+    height: 60px;
+    background-color: #181818;
+    @include flex-center(row);
+    color: $whiteTextColor;
+    flex-grow: 0; /*Запрещаем увеличиваться*/
+    flex-shrink: 0; /*Запрещаем сжиматься*/
+    flex-basis: auto;
+}
+
 // Footer
 
 .footer {
-    margin-top: 5%;
-    margin-bottom: 5%;
+    flex: 0 0 auto;
     color: $whiteTextColor;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center(row);
+    background-color: #181818;
+    height: 60px;
 }

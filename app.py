@@ -1,3 +1,4 @@
+from Classes.Lang import Lang
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
@@ -96,9 +97,30 @@ def register():
     return render_template('register.html', title='Регистрация', form=form)
 
 
+# TODO: Проверять, если access_token есть, то делать редирект на страницу с подбором пользователей
 @application.route('/', methods=["GET"])
 def index():
     return render_template("index.html", title="Главная")
+
+
+# Test route
+@application.route('/upload_file', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+    return '''
+    <!doctype html>
+    <title>Загрузить новый файл</title>
+    <h1>Загрузить новый файл</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    </html>
+    '''
 
 
 if __name__ == "__main__":

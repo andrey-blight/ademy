@@ -2,41 +2,43 @@
 
 {% block main %}
     <!-- TODO: Сделать autocomplete="on" у полей -->
-    <span class="progress_bar"></span>
+    <span class="progress-bar"></span>
     <div class="main__register">
         <form action="" method="post" enctype="multipart/form-data" novalidate>
-            {% for field in form if field.name != 'csrf_token' %}
-                <div>
-                    {% for error in field.errors %}
-                        <div class="error">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
+            <div class="messages">
+                {% for field in form if field.name != 'csrf_token' %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="message message-error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
             {{ form.csrf_token }}
             <div class="register__component rules__list">
                 <div class="header">
                     <img class="logo" src="/static/img/logo.svg" alt="">
                     <h2>Добро пожаловать в Ademy!</h2>
-                    <p class="text_muted">Пожалуйста, соблюдайте следующие правила:</p>
+                    <p class="text-muted">Пожалуйста, соблюдайте следующие правила:</p>
                 </div>
                 <ul>
                     <li>
                         <h2 class="li_text">Будьте собой.</h2>
-                        <p class="li_text text_muted">Ваши фото, возраст и информация о себе должны быть настоящими.</p>
+                        <p class="li_text text-muted">Ваши фото, возраст и информация о себе должны быть настоящими.</p>
                     </li>
                     <li>
                         <h2 class="li_text">Помните о безопасности.</h2>
-                        <p class="li_text text_muted">Не торопитесь делиться своей личной информацией. <b>Безопасность
+                        <p class="li_text text-muted">Не торопитесь делиться своей личной информацией. <b>Безопасность
                             превыше всего.</b></p>
                     </li>
                     <li>
                         <h2 class="li_text">Ведите себя достойно.</h2>
-                        <p class="li_text text_muted">Уважайте других и относитесь к ним так, как вы бы хотели, чтобы
+                        <p class="li_text text-muted">Уважайте других и относитесь к ним так, как вы бы хотели, чтобы
                             они относились к Вам.</p>
                     </li>
                     <li>
                         <h2 class="li_text">Действуйте решительно.</h2>
-                        <p class="li_text text_muted">Всегда сообщайте о неподобающем поведении.</p>
+                        <p class="li_text text-muted">Всегда сообщайте о неподобающем поведении.</p>
                     </li>
                 </ul>
             </div>

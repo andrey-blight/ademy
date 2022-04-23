@@ -9,12 +9,17 @@
     <title>{{ title }}</title>
 </head>
 <body>
-    <div class="main">
-        {% block main %}
-        {% endblock %}
-    </div>
-    <div class="footer">
-        <p>All rights are reserved &copy; Ademy 2022</p>
+    <div class="wrapper">
+        <div class="header">
+            <p>I am header</p>
+        </div>
+        <div class="main">
+            {% block main %}
+            {% endblock %}
+        </div>
+        <div class="footer">
+            <p>All rights are reserved &copy; Ademy 2022</p>
+        </div>
     </div>
     {% block scripts %}
     {% endblock %}

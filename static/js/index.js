@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    const API_URI = 'http://localhost:8080/api/v1'
+    const API_URI = "http://localhost:8080/api/v1"
     // RegisterScript
     // Создать куки и добавлять туда данные, по мере их поступления
     function registerFormComponent() {
@@ -19,7 +19,7 @@ $(document).ready(() => {
         const ACTION_NEXT = buttonNext.className
         let buttons = [buttonNext, buttonPrevious]
         for (let button of buttons) {
-            button.addEventListener('click', (event) => {
+            button.addEventListener("click", (event) => {
                 // Если мы дошли до последней страницы
                 if (event.path[0].className === ACTION_NEXT && counter !== LAST_PAGE) {
                     // Если нажата кнопка next и это не последняя страница
@@ -39,24 +39,24 @@ $(document).ready(() => {
 
     function progressBarComponent(counter, coefficient) {
         if (counter * coefficient >= 100) {
-            document.getElementsByClassName('progress_bar')[0].style.width = '100%'
+            document.getElementsByClassName("progress-bar")[0].style.width = "100%"
         } else {
-            document.getElementsByClassName('progress_bar')[0].style.width = `${counter * coefficient}%`
+            document.getElementsByClassName("progress-bar")[0].style.width = `${counter * coefficient}%`
         }
     }
 
-    function formComponents(action = 'prepare', counter) {
-        let listComponents = document.getElementsByClassName('register__component')
-        if (action === 'prepare') {
+    function formComponents(action = "prepare", counter) {
+        let listComponents = document.getElementsByClassName("register__component")
+        if (action === "prepare") {
             for (let index = 1; index < listComponents.length; index++) {
-                listComponents[index].style.display = 'none'
+                listComponents[index].style.display = "none"
             }
-        } else if (action === 'next') {
-            listComponents[counter - 1].style.display = 'none'
-            listComponents[counter].style.display = 'flex'
-        } else if (action === 'prev') {
-            listComponents[counter - 1].style.display = 'flex'
-            listComponents[counter].style.display = 'none'
+        } else if (action === "next") {
+            listComponents[counter - 1].style.display = "none"
+            listComponents[counter].style.display = "flex"
+        } else if (action === "prev") {
+            listComponents[counter - 1].style.display = "flex"
+            listComponents[counter].style.display = "none"
         }
     }
 
@@ -64,7 +64,7 @@ $(document).ready(() => {
         const access_token = getCookie("access_token").access_token
         let listInterests = document.getElementsByClassName("list__interests")[0]
         const interests = await fetch(
-            API_URI + '/interests',
+            API_URI + "/interests",
             {
                 headers: {
                     "x-access-tokens": access_token
@@ -77,7 +77,8 @@ $(document).ready(() => {
         for (let value of interests) {
             let checkInputElement = document.createElement("input")
             checkInputElement.setAttribute("type", "checkbox")
-            checkInputElement.setAttribute("name", `interests_value_${counter}`)
+            console.log(value)
+            checkInputElement.setAttribute("name", `interest_${value.name}`)
             const checkDescription = document.createElement("span")
             checkDescription.appendChild(document.createTextNode(value.name))
             const wrapInput = document.createElement("label")
@@ -90,12 +91,12 @@ $(document).ready(() => {
     }
 
     function getCookie(cookieName) {
-        let cookies = document.cookie.split(";")
+        let cookies = document.cookie.split(';')
         let result = {}
         for (let cookie of cookies) {
             if (cookie.includes(cookieName)) {
-                let dataOfCookie = cookie.split("=")
-                let cookieValue = dataOfCookie.slice(1).join("=")
+                let dataOfCookie = cookie.split('=')
+                let cookieValue = dataOfCookie.slice(1).join('=')
                 result[cookieName] = cookieValue
                 return result
             }
@@ -107,7 +108,7 @@ $(document).ready(() => {
     fileInput.addEventListener("change", () => {
         let iconFileInput = document.getElementsByClassName("icon-file-upload")[0]
         let textFileInput = document.getElementsByClassName("js-file")[0]
-        iconFileInput.src="/static/img/check.svg"
+        iconFileInput.src = "/static/img/check.svg"
         textFileInput.textContent = fileInput.value.split("\\").pop()
     });
     registerFormComponent()
