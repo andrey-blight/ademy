@@ -378,6 +378,32 @@ body {
     }
 }
 
+.app {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .list__users {
+    }
+    .user__description {
+        border-radius: 10px;
+        background-color: #fff;
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        .avatar {
+            img {
+                border-radius: 10px;
+                width: 500px;
+            }
+        }
+        .description {
+            width: 300px;
+            padding: 15px;
+        }
+    }
+}
+
 // Rules
 
 .logo {
