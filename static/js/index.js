@@ -61,15 +61,10 @@ $(document).ready(() => {
     }
 
     async function fillInterests() {
-        const access_token = getCookie("access_token").access_token
+        console.log("Filling interests...")
         let listInterests = document.getElementsByClassName("list__interests")[0]
         const interests = await fetch(
-            API_URI + "/interests",
-            {
-                headers: {
-                    "x-access-tokens": access_token
-                }
-            }
+            API_URI + "/interests"
         ).then((response) => {
             return response.json()
         })
@@ -78,7 +73,8 @@ $(document).ready(() => {
             let checkInputElement = document.createElement("input")
             checkInputElement.setAttribute("type", "checkbox")
             console.log(value)
-            checkInputElement.setAttribute("name", `interest_${value.name}`)
+            checkInputElement.setAttribute("name", `interest_${counter}`)
+            checkInputElement.setAttribute("value", `${value.name}`)
             const checkDescription = document.createElement("span")
             checkDescription.appendChild(document.createTextNode(value.name))
             const wrapInput = document.createElement("label")

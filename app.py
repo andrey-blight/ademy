@@ -69,6 +69,7 @@ def register():
         return redirect('/')
     form = RegisterForm()
     if form.validate_on_submit():
+        # print(request.form)
         json_dict = {}
         data = dict(request.form)
         interests = []
@@ -89,7 +90,7 @@ def register():
         url = "http://localhost:8080/api/v1/users"
         user_json = requests.post(url,
                                   json=json_dict).json()  # add user using api
-        pprint.pprint(user_json)
+        # pprint.pprint(user_json)
         filename = user_json["user"]["images"][0][
             "image_href"]  # get image filename
         # TODO: проверить расширения файлов
