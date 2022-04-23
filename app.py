@@ -56,6 +56,7 @@ def login():
                 access_token.get_token(user.id),
                 max_age=60 * 60 * 24 * 265 * 2
             )
+            redirect("/")
             return response
         return render_template("login.html",
                                message="Неправильный логин или пароль",
@@ -69,13 +70,12 @@ def register():
         return redirect('/')
     form = RegisterForm()
     if form.validate_on_submit():
-        # print(request.form)
         json_dict = {}
         data = dict(request.form)
         interests = []
-        for key in data.keys():
-            if key.startswith("interests_"):
-                interests.append(key.split("interests_")[0])
+        for key, val in data.items():
+            if key.startswith("interest"):
+                interests.append(val)
         if data["sex"] == "Мужской":
             data["sex"] = 1
         elif data["sex"] == "Женский":
@@ -90,7 +90,6 @@ def register():
         url = "http://localhost:8080/api/v1/users"
         user_json = requests.post(url,
                                   json=json_dict).json()  # add user using api
-        # pprint.pprint(user_json)
         filename = user_json["user"]["images"][0][
             "image_href"]  # get image filename
         # TODO: проверить расширения файлов
@@ -114,7 +113,8 @@ def upload_file():
         file = request.files['file']
         if file:
             filename = secure_filename(file.filename)
-            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+            file.save(
+                os.path.join(application.config['UPLOAD_FOLDER'], filename))
     return '''
     <!doctype html>
     <title>Загрузить новый файл</title>

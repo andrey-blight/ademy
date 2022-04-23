@@ -35,11 +35,10 @@ class UserListResource(Model):
         )
         session = self.db.create_session()
         try:
-            # TODO:Добавить интересы после комита Кирила
-            # for interest_name in args["interests"]:
-            #     interest_obj = session.query(Interest).filter(
-            #         Interest.name == interest_name).first()
-            #     user.interests.append(interest_obj)
+            for interest_name in args["interests"]:
+                interest_obj = session.query(Interest).filter(
+                    Interest.name == interest_name).first()
+                user.interests.append(interest_obj)
             session.add(user)
             session.commit()
             filename = f"{user.id}_1.jpg"
