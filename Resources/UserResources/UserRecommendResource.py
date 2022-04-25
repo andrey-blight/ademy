@@ -16,6 +16,7 @@ class UserRecommendResource(Model):
     @token_required
     def get(self, count: int) -> Response:
         try:
+            print(current_user.is_authenticated, current_user)
             if current_user.is_authenticated:
                 session = self.db.create_session()
                 users = session.query(self.Model).filter(current_user.sex != User.sex).all()

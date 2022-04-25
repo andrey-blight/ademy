@@ -51,6 +51,11 @@ def login():
             flash("Успешная авторизация", category="success")
             response = make_response(redirect("/"))
             response.set_cookie(
+                "user_sex",
+                str(user.sex),
+                max_age=60 * 60 * 24 * 265 * 2,
+            )
+            response.set_cookie(
                 "access_token",
                 access_token.get_token(user.id),
                 max_age=60 * 60 * 24 * 265 * 2
