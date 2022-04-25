@@ -4,21 +4,23 @@
     <div class="main__login">
         <h1>Авторизация</h1>
         <form action="" method="post" novalidate>
-            <div class="messages">
-                {% for field in form if field.name != 'csrf_token' %}
-                    {% if field.errors %}
-                        {% for error in field.errors %}
-                            <div class="message message-error">{{ error }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-            </div>
+            {% include "flash.html" %}
             {{ form.csrf_token }}
             <div class="form-control">
+                {% for error in form.email.errors %}
+                    <p class="message message-error" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
                 {{ form.email.label }}<br>
                 {{ form.email(type="email", placeholder="Введите почту") }}<br>
             </div>
             <div class="form-control">
+                {% for error in form.password.errors %}
+                    <p class="message message-error" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
                 {{ form.password.label }}<br>
                 {{ form.password(type="password", placeholder="Введите пароль") }}<br>
             </div>

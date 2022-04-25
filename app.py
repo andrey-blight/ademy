@@ -13,7 +13,7 @@ from Data.Functions import load_environment_variable
 import os
 
 import requests
-from flask import Flask, render_template, redirect, request, make_response
+from flask import Flask, render_template, redirect, request, make_response, url_for, flash
 from flask_login import LoginManager, login_user, current_user
 
 application = Flask(__name__, template_folder="templates")
@@ -48,22 +48,21 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             access_token = Token()
-            response = make_response(
-                render_template("login.html", title="Авторизация",
-                                message="Успешно!", form=form))
+            flash("Успешная авторизация", category="success")
+            response = make_response(redirect("/"))
             response.set_cookie(
                 "access_token",
                 access_token.get_token(user.id),
                 max_age=60 * 60 * 24 * 265 * 2
             )
-            redirect("/")
             return response
         return render_template("login.html",
-                               message="Неправильный логин или пароль",
+                               error="Неправильный логин или пароль",
                                form=form)
     return render_template("login.html", title="Авторизация", form=form)
 
 
+# TODO: проверка на уникальность почты
 @application.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
@@ -90,12 +89,14 @@ def register():
         url = "http://localhost:8080/api/v1/users"
         user_json = requests.post(url,
                                   json=json_dict).json()  # add user using api
+        pprint.pprint(user_json)
         filename = user_json["user"]["images"][0][
             "image_href"]  # get image filename
         # TODO: проверить расширения файлов
         file = request.files['avatar']
         img_path = os.path.join(application.config['UPLOAD_FOLDER'], filename)
         file.save(img_path)  # save image to upload folder
+        flash("Успешная регистрация!", category='success')
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
 
@@ -104,27 +105,6 @@ def register():
 @application.route('/', methods=["GET"])
 def index():
     return render_template("index.html", title="Главная")
-
-
-# Test route
-@application.route('/upload_file', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(
-                os.path.join(application.config['UPLOAD_FOLDER'], filename))
-    return '''
-    <!doctype html>
-    <title>Загрузить новый файл</title>
-    <h1>Загрузить новый файл</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    </html>
-    '''
 
 
 if __name__ == "__main__":

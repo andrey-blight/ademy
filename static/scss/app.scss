@@ -9,7 +9,8 @@ $buttonTextColor: #202020;
 $whiteTextColor: white;
 $mutedTextColor: #303030;
 $mainFontSize: 25px;
-$messageErrorTextColor: #ff0000;
+$messageErrorColor: #ff0000;
+$messageSuccessColor: #2ac524;
 
 // Mixins
 
@@ -47,6 +48,10 @@ body {
     background: #202020;
     display: flex;
     flex-direction: column;
+}
+
+a {
+    color: $whiteTextColor;
 }
 
 .wrapper {
@@ -369,11 +374,13 @@ body {
             margin-top: 15px;
         }
 
+        input {
+            width: 400px;
+        }
+
         button {
             margin-top: 15px;
-            width: -moz-available;
-            width: -webkit-fill-available;
-            width: fill-available;
+            width: 400px;
         }
     }
 }
@@ -383,20 +390,24 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+
     .list__users {
     }
+
     .user__description {
         border-radius: 10px;
         background-color: #fff;
         padding: 15px;
         display: flex;
         flex-direction: row;
+
         .avatar {
             img {
                 border-radius: 10px;
                 width: 500px;
             }
         }
+
         .description {
             width: 300px;
             padding: 15px;
@@ -422,16 +433,19 @@ body {
 }
 
 .message {
-    margin: 15px;
+    color: $whiteTextColor;
+    padding: 5px;
+    width: 400px;
+    border-radius: 5px;
+    text-align: center;
 }
 
 .message-error {
-    color: $whiteTextColor;
-    padding: 5px;
-    background-color: $messageErrorTextColor;
-    width: auto;
-    border-radius: 5px;
-    text-align: center;
+    background-color: $messageErrorColor;
+}
+
+.message-success {
+    background-color: $messageSuccessColor;
 }
 
 // Scroll bar

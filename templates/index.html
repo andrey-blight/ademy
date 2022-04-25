@@ -5,6 +5,8 @@
         <img class="logo" src="/static/img/logo.svg" alt="">
         <h1>ADEMY</h1>
     </div>
+    <!-- TODO: выводится некорректно app.scss -->
+    {% include "flash.html" %}
     {% if current_user.is_authenticated %}
         <div class="app">
             <div class="user__description">

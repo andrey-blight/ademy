@@ -36,7 +36,7 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
     about_yourself = Column(String(2000))
     sex = Column(Integer, nullable=False)
     hashed_password = Column(String(200), nullable=False)
-    email = Column(String(25), unique=True)
+    email = Column(String(320), unique=True)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
