@@ -13,7 +13,8 @@ from Data.Functions import load_environment_variable
 import os
 
 import requests
-from flask import Flask, render_template, redirect, request, make_response, url_for, flash
+from flask import Flask, render_template, redirect, request, make_response, \
+    url_for, flash
 from flask_login import LoginManager, login_user, current_user
 
 application = Flask(__name__, template_folder="templates")
@@ -100,9 +101,13 @@ def register():
     return render_template('register.html', title='Регистрация', form=form)
 
 
-# TODO: Проверять, если access_token есть, то делать редирект на страницу с подбором пользователей
 @application.route('/', methods=["GET"])
 def index():
+    print(current_user.is_authenticated)
+    ans = requests.get(
+        "http://localhost:8080/api/v1/recommend_user/100").json()
+    pprint.pprint(ans)
+    print(current_user.is_authenticated)
     return render_template("index.html", title="Главная")
 
 

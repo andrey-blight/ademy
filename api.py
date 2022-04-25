@@ -27,7 +27,7 @@ class MainAPI:
         self.api.add_resource(InterestListResource, r"/interests",
                               methods=["GET"])
         self.api.add_resource(UserRecommendResource,
-                              "/recommend_user/<int:count>",
+                              "/recommend_user/<int:count>/<int:sex>",
                               methods=["GET"])
         self.api.add_resource(LikeResource, "/like/<int:from_id>/<int:to_id>", methods=["POST"])
 

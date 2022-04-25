@@ -14,12 +14,12 @@ class UserRecommendResource(Model):
         super().__init__("User")
 
     @token_required
-    def get(self, count: int) -> Response:
+    def get(self, count: int, sex: int) -> Response:
         try:
-            if current_user.is_authenticated:
-                session = self.db.create_session()
-                users = session.query(self.Model).filter(current_user.sex != User.sex).all()
-                need_users = choices(users, k=count)
-                return jsonify([item.to_dict() for item in need_users])
+            session = self.db.create_session()
+            users = session.query(self.Model).filter(sex != User.sex).all()
+            need_users = choices(users, k=count)
+            return jsonify([item.to_dict() for item in need_users])
         except Exception as ex:
+            print(ex)
             return jsonify({"Error": "Unexpected"})
