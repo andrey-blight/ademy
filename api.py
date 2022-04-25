@@ -4,7 +4,7 @@ from Resources.ImageResources.ImageListResource import ImageListResource
 from Resources.ImageResources.ImageResource import ImageResource
 from Resources.InterestResources.InterestListResource import \
     InterestListResource
-
+from Resources.UserResources.UserRecommendResource import UserRecommendResource
 from flask_restful import Api
 
 
@@ -24,6 +24,9 @@ class MainAPI:
         self.api.add_resource(ImageListResource, r"/images/<int:user_id>",
                               methods=["GET", "POST"])
         self.api.add_resource(InterestListResource, r"/interests",
+                              methods=["GET"])
+        self.api.add_resource(UserRecommendResource,
+                              "/recommend_user/<int:count>",
                               methods=["GET"])
 
     def get_api_prefix(self):
