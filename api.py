@@ -7,7 +7,7 @@ from Resources.ImageResources.ImageResource import ImageResource
 from Resources.InterestResources.InterestListResource import \
     InterestListResource
 from Resources.LikeResources.LikeResource import LikeResource
-
+from Resources.MessageResources.MessageListResource import MessageListResource
 from flask_restful import Api
 
 
@@ -35,6 +35,8 @@ class MainAPI:
                               methods=["GET"])
         self.api.add_resource(LikeResource, "/like/<int:from_id>/<int:to_id>",
                               methods=["POST"])
+        self.api.add_resource(MessageListResource, "/message/<int:chat_id>",
+                              methods=["GET", "POST"])
 
     def get_api_prefix(self):
         return self.api.prefix
