@@ -26,8 +26,7 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
         # if sex is 1 - Male else sex is Female (ISO/IEC 5218)
     )
     serialize_only = ("id", "name", "surname", "age", "about_yourself",
-                      "sex", "hashed_password", "email", "created_at",
-                      "updated_at", "images", "interests")
+                      "sex", "email", "images", "interests")
 
     id = Column(Integer, primary_key=True)
     name = Column(String(25), nullable=False)
@@ -44,6 +43,8 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
                           back_populates="user")
     interests = relationship("Interest", secondary="user_to_interest",
                              back_populates="users")
+    chats = relationship("Chat", secondary="chat_to_user",
+                         back_populates="users")
     # Все пользователи которым текущий пользователь поставил лайк
     liked_to = relationship("User",
                             secondary="liked_to",
