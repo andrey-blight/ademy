@@ -2,6 +2,7 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from Data.Models.User import User
 from Data.Models.Image import Image
 from Data.Models.Interest import Interest
+from Data.Models.Chat import Chat
 from sqlalchemy.exc import OperationalError
 from faker import Faker
 import random
@@ -39,8 +40,18 @@ def create_images():
     session.commit()
 
 
+def create_chats():
+    session = db.create_session()
+    main_user = session.query(User).get(11)
+    users = [session.query(User).get(i) for i in range(1, 5)]
+    for i, el in enumerate(session.query(Chat).all()):
+        el.users.extend([main_user, users[i]])
+    session.commit()
+
+
 if __name__ == '__main__':
-    db = SqlAlchemyDatabase(create=True, delete=True)
-    create_users()
-    create_images()
-    create_interests()
+    db = SqlAlchemyDatabase(create=False, delete=False)
+    # create_users()
+    # create_images()
+    # create_interests()
+    create_chats()
