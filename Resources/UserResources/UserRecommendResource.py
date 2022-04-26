@@ -23,7 +23,8 @@ class UserRecommendResource(Model):
                 el = choice(users)
                 users.remove(el)
                 need_users.append(el)
-            return jsonify([item.to_dict() for item in need_users])
+            return jsonify({"Count": count,
+                            "Users": [item.to_dict() for item in need_users]})
         except Exception as ex:
             print(ex)
             return jsonify({"Error": "Unexpected"})
