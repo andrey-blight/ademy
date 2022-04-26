@@ -14,7 +14,7 @@ chat_to_user = Table("chat_to_user", SqlAlchemyBase.metadata,
 
 class Chat(SqlAlchemyBase, SerializerMixin):
     __tablename__ = "chats"
-    serialize_only = ("id", "users")
+    serialize_only = ("id", "last_message", "users")
 
     id = Column(Integer, primary_key=True)
     last_message = Column(String(200), nullable=True)
