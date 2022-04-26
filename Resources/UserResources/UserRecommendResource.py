@@ -2,7 +2,7 @@ from Classes.Model import Model
 from Data.Models.User import User
 from Data.Functions import token_required
 
-from random import choices
+from random import choice
 
 from flask import jsonify
 from flask.wrappers import Response
@@ -18,7 +18,11 @@ class UserRecommendResource(Model):
             session = self.db.create_session()
             users = session.query(self.Model).filter(sex != User.sex).all()
             count = min(count, len(users))
-            need_users = choices(users, k=count)
+            need_users = []
+            for _ in range(count):
+                el = choice(users)
+                users.remove(el)
+                need_users.append(el)
             return jsonify([item.to_dict() for item in need_users])
         except Exception as ex:
             print(ex)
