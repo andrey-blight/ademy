@@ -12,7 +12,7 @@ $(document).ready(() => {
 
     async function getUsers() {
         // TODO: что - то с API, отбивает разное кол-во пользователей
-        const USER_COUNT = 10
+        const USER_COUNT = 2
         console.log("Filling users...")
         const users = await fetch(
             API_URI + `/recommend_user/${USER_COUNT}/${getCookie("user_sex").user_sex}`,
@@ -24,6 +24,7 @@ $(document).ready(() => {
         ).then((response) => {
             return response.json()
         })
+        console.log(users)
         // Заполняем пользователей
         localStorage.setItem("users", JSON.stringify(users))
         // Устанавливаем текущего пользователя на 0
@@ -36,7 +37,6 @@ $(document).ready(() => {
     async function handleClickUser() {
         document.getElementById("eventLike").addEventListener("click", async () => {
             console.log("eventLike")
-            let userAvatarImage = document.getElementById("userAvatarImage").src.split("/")
             let to_id = JSON.parse(localStorage.getItem("users"))[localStorage.getItem("currentUser")]?.id
             if (!to_id) {
                 document.cookie = "checked=true; max-age=3600"
@@ -115,7 +115,7 @@ $(document).ready(() => {
                 let dataOfCookie = cookie.split('=')
                 let cookieValue = dataOfCookie.slice(1).join('=')
                 result[cookieName] = cookieValue
-                // console.log(result)
+                console.log(result)
                 return result
             }
         }
