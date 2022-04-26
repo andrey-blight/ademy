@@ -13,6 +13,6 @@ class Message(SqlAlchemyBase, SerializerMixin):
 
     id = Column(Integer, primary_key=True)
     chat_id = Column(Integer, ForeignKey("chats.id"))
-    text = Column(String(200), nullable=False)
+    text = Column(String(500), nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     chat = relationship("Chat")

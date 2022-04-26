@@ -17,6 +17,7 @@ class UserRecommendResource(Model):
         try:
             session = self.db.create_session()
             users = session.query(self.Model).filter(sex != User.sex).all()
+            count = min(count, len(users))
             need_users = choices(users, k=count)
             return jsonify([item.to_dict() for item in need_users])
         except Exception as ex:
