@@ -15,7 +15,7 @@ import os
 import requests
 from flask import Flask, render_template, redirect, request, make_response, \
     url_for, flash
-from flask_login import LoginManager, login_user, current_user
+from flask_login import LoginManager, login_user, current_user, login_required
 
 application = Flask(__name__, template_folder="templates")
 application.config.from_object("config.DevConfig")
@@ -115,6 +115,12 @@ def register():
 @application.route('/', methods=["GET"])
 def index():
     return render_template("index.html", title="Главная")
+
+
+@application.route("/messanger", methods=["GET", "POST"])
+@login_required
+def messanger():
+    return render_template("messanger.html", title="Мессенджер")
 
 
 if __name__ == "__main__":

@@ -402,7 +402,7 @@ a {
         display: flex;
         flex-direction: row;
 
-        .avatar > img{
+        .avatar > img {
             border-radius: 10px;
             width: 500px;
         }
@@ -415,6 +415,7 @@ a {
 
     .estimate {
         @include flex-center(row);
+
         img {
             width: 128px;
             margin: 15px;
@@ -431,14 +432,58 @@ a {
     }
 }
 
+.messanger {
+    .list__dialogs {
+        @include flex-center(column);
+    }
+
+    .dialog {
+        display: flex;
+        flex-direction: row;
+        padding: 15px;
+        color: $whiteTextColor;
+        width: -moz-available;
+        width: -webkit-fill-available;
+        width: fill-available;
+        cursor: pointer;
+
+        .dialog-item:not(:last-child) {
+            margin-right: 10px;
+        }
+
+        .dialog-preview {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+        }
+
+        .dialog-time {
+            background-color: $messagePrimaryColor;
+            border-radius: 5px;
+            width: min-content;
+            height: max-content;
+            padding: 5px;
+        }
+    }
+
+    .dialog:hover {
+        background-color: $mutedTextColor;
+    }
+
+    hr {
+        width: 90%;
+        height: 1px;
+        border: none;
+        background: $mutedTextColor;
+        border-radius: 100%;
+        outline: none;
+    }
+}
+
 // Properties
 
 .logo {
     width: 64px;
-}
-
-.chat-icon {
-    width: 32px;
 }
 
 .text-muted {
@@ -560,6 +605,22 @@ a {
     flex-grow: 0; /*Запрещаем увеличиваться*/
     flex-shrink: 0; /*Запрещаем сжиматься*/
     flex-basis: auto;
+
+    .header-icon {
+        width: 20px;
+        margin-right: 5px;
+    }
+
+    .header-link {
+        font-size: 20px;
+        margin: 10px;
+        @include flex-center(row);
+    }
+
+    .header-link:hover {
+        color: $secondColor;
+
+    }
 }
 
 // Footer

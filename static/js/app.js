@@ -3,16 +3,18 @@ $(document).ready(() => {
 
     function main() {
         if (checkViewUsers()) {
+            console.log(true)
             getUsers()
             handleClickUser()
         } else {
+            console.log(false)
             setAnimation()
         }
     }
 
     async function getUsers() {
         // TODO: что - то с API, отбивает разное кол-во пользователей
-        const USER_COUNT = 2
+        let USER_COUNT = 100
         console.log("Filling users...")
         const users = await fetch(
             API_URI + `/recommend_user/${USER_COUNT}/${getCookie("user_sex").user_sex}`,
@@ -26,9 +28,9 @@ $(document).ready(() => {
         })
         console.log(users)
         // Заполняем пользователей
-        localStorage.setItem("users", JSON.stringify(users))
+        localStorage.setItem("users", JSON.stringify(users.users))
         // Устанавливаем текущего пользователя на 0
-        localStorage.setItem("currentUser", `${USER_COUNT - 1}`)
+        localStorage.setItem("currentUser", `${users.count - 1}`)
         // console.log(JSON.parse(localStorage.getItem("users")))
         // Заполняем пользователя id: = 0
         fillUser(localStorage.getItem("currentUser"))
@@ -102,8 +104,8 @@ $(document).ready(() => {
     }
 
     function checkViewUsers() {
-        const isChecked = (getCookie("checked")?.checked === 'true');
-        return !isChecked;
+        const isChecked = (getCookie("checked")?.checked === 'true')
+        return !isChecked
     }
 
 

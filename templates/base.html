@@ -11,8 +11,10 @@
 <body>
     <div class="wrapper">
         <div class="header">
-            <a href="/">Main</a>
-            <a href="/messanger"><img class="chat-icon" src="/static/img/chat.svg" alt="">Messanger</a>
+            <a class="header-link" href="/"><img class="header-icon" src="/static/img/main.svg" alt="">
+                <span>Главная</span></a>
+            <a class="header-link" href="/messanger"><img class="header-icon" src="/static/img/chat.svg" alt="">
+                <span>Мессенджер</span></a>
         </div>
         <div class="main">
             {% block main %}
