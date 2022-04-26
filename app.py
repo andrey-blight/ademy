@@ -103,11 +103,6 @@ def register():
 
 @application.route('/', methods=["GET"])
 def index():
-    print(current_user.is_authenticated)
-    ans = requests.get(
-        "http://localhost:8080/api/v1/recommend_user/100").json()
-    pprint.pprint(ans)
-    print(current_user.is_authenticated)
     return render_template("index.html", title="Главная")
 
 
