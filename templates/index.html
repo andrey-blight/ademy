@@ -9,18 +9,32 @@
     {% include "flash.html" %}
     {% if current_user.is_authenticated %}
         <div class="app">
+            <div id="endUsers" class="end">
+                <p>На этом пока что все!</p>
+                <div class="tick__animation">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+            </div>
             <div class="user__description">
                 <div class="avatar">
-                    <img src="/static/img/users/example.jpg" alt="">
+                    <img id="userAvatarImage" src="/static/img/users/example.jpg" alt="">
+                    <div class="estimate">
+                        <img id="eventLike" src="/static/img/heart.svg" alt="">
+                        <img id="eventDislike" src="/static/img/dislike.svg" alt="">
+                    </div>
                 </div>
                 <div class="description">
-                    <h2>Name, [age] <span class="verified"></span></h2>
+                    <h2><span id="userName">Name</span>, <span id="userAge">[age]</span> <span class="verified"></span>
+                    </h2>
                     <h4>Обо мне</h4>
-                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <p id="userDescription"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                         Earum harum hic inventore ipsum maiores necessitatibus placeat quidem rerum veniam vitae!
                         Adipisci deleniti dicta molestiae non possimus quod rem sapiente suscipit! </p>
-                    <h4>Личная информация</h4>
-                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <h4>Мои интересы</h4>
+                    <p id="userInterests"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                         Earum harum hic inventore ipsum maiores necessitatibus placeat quidem rerum veniam vitae!
                         Adipisci deleniti dicta molestiae non possimus quod rem sapiente suscipit! </p>
                 </div>
@@ -37,4 +51,9 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/app.js"></script>
 {% endblock %}

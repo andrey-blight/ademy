@@ -57,11 +57,17 @@ def login():
                 max_age=60 * 60 * 24 * 265 * 2,
             )
             response.set_cookie(
+                "user_id",
+                str(user.id),
+                max_age=60 * 60 * 24 * 265 * 2,
+            )
+            response.set_cookie(
                 "access_token",
                 access_token.get_token(user.id),
                 max_age=60 * 60 * 24 * 265 * 2
             )
             return response
+        # TODO: переделать на flash
         return render_template("login.html",
                                error="Неправильный логин или пароль",
                                form=form)
@@ -108,6 +114,11 @@ def register():
 
 @application.route('/', methods=["GET"])
 def index():
+    # print(current_user.is_authenticated)
+    # ans = requests.get(
+    #     "http://localhost:8080/api/v1/recommend_user/100").json()
+    # pprint.pprint(ans)
+    # print(current_user.is_authenticated)
     return render_template("index.html", title="Главная")
 
 
