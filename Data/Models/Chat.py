@@ -1,6 +1,7 @@
 from Classes.SqlAlchemyDatabase import SqlAlchemyBase
 
-from sqlalchemy import Column, Integer, ForeignKey, Table, UniqueConstraint
+from sqlalchemy import Column, Integer, ForeignKey, Table, UniqueConstraint, \
+    String
 from sqlalchemy.orm import relationship
 from sqlalchemy_serializer import SerializerMixin
 
@@ -16,8 +17,8 @@ class Chat(SqlAlchemyBase, SerializerMixin):
     serialize_only = ("id", "users")
 
     id = Column(Integer, primary_key=True)
+    last_message = Column(String(200), nullable=True)
     users = relationship("User", secondary=chat_to_user,
                          back_populates="chats")
     messages = relationship("Message", cascade="all, delete",
                             back_populates="chat")
-    # TODO: Возможно добавить поле последнего сообщения, чтобы показывать как в VK

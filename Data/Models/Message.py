@@ -16,10 +16,3 @@ class Message(SqlAlchemyBase, SerializerMixin):
     text = Column(String(200), nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     chat = relationship("Chat")
-
-    def __init__(self, text):
-        self.text = text
-
-    def add_message(self, text: str):
-        # TODO: Добавить метод который будет изменять модель чата
-        pass
