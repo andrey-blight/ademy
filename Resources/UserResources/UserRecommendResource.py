@@ -5,7 +5,6 @@ from Data.Functions import token_required
 from random import choices
 
 from flask import jsonify
-from flask_login import current_user
 from flask.wrappers import Response
 
 
