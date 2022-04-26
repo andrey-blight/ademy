@@ -10,7 +10,8 @@ $whiteTextColor: white;
 $mutedTextColor: #303030;
 $mainFontSize: 25px;
 $messageErrorColor: #ff0000;
-$messageSuccessColor: #2ac524;
+$messageSuccessColor: #08ff00;
+$messagePrimaryColor: #0f9ada;
 
 // Mixins
 
@@ -70,7 +71,7 @@ a {
 // Index
 
 .main__header {
-    padding: 15px 0px 0px 0px;
+    padding: 15px 0 15px 0;
     display: flex;
     color: $whiteTextColor;
     flex-direction: row;
@@ -387,7 +388,7 @@ a {
 
 .app {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -401,11 +402,9 @@ a {
         display: flex;
         flex-direction: row;
 
-        .avatar {
-            img {
-                border-radius: 10px;
-                width: 500px;
-            }
+        .avatar > img{
+            border-radius: 10px;
+            width: 500px;
         }
 
         .description {
@@ -413,12 +412,33 @@ a {
             padding: 15px;
         }
     }
+
+    .estimate {
+        @include flex-center(row);
+        img {
+            width: 128px;
+            margin: 15px;
+        }
+    }
+
+    .end {
+        color: white;
+        background-color: $mutedTextColor;
+        padding: 15px;
+        font-size: 25px;
+        border-radius: 15px;
+        display: none;
+    }
 }
 
-// Rules
+// Properties
 
 .logo {
     width: 64px;
+}
+
+.chat-icon {
+    width: 32px;
 }
 
 .text-muted {

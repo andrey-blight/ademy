@@ -86,32 +86,6 @@ $(document).ready(() => {
         }
     }
 
-    async function fillUsers() {
-        console.log("Filling users...")
-        let userDescription = document.getElementsByClassName("user__description")[0]
-        const users = await fetch(
-            API_URI + "/interests"
-        ).then((response) => {
-            return response.json()
-        })
-        let counter = 0
-        for (let value of interests) {
-            let checkInputElement = document.createElement("input")
-            checkInputElement.setAttribute("type", "checkbox")
-            console.log(value)
-            checkInputElement.setAttribute("name", `interest_${counter}`)
-            checkInputElement.setAttribute("value", `${value.name}`)
-            const checkDescription = document.createElement("span")
-            checkDescription.appendChild(document.createTextNode(value.name))
-            const wrapInput = document.createElement("label")
-            wrapInput.setAttribute("class", "checkbox")
-            wrapInput.appendChild(checkInputElement)
-            wrapInput.appendChild(checkDescription)
-            listInterests.appendChild(wrapInput)
-            counter += 1
-        }
-    }
-
     function getCookie(cookieName) {
         let cookies = document.cookie.split(';')
         let result = {}
