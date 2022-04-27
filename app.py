@@ -1,6 +1,3 @@
-import pprint
-
-from Classes.Lang import Lang
 from api import MainAPI
 from Classes.ServerBuilder import ServerBuilder
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
@@ -13,9 +10,8 @@ from Data.Functions import load_environment_variable
 import os
 
 import requests
-from flask import Flask, render_template, redirect, request, make_response, \
-    url_for, flash
-from flask_login import LoginManager, login_user, current_user
+from flask import Flask, render_template, redirect, request, make_response, flash
+from flask_login import LoginManager, login_user, current_user, login_required
 
 application = Flask(__name__, template_folder="templates")
 application.config.from_object("config.DevConfig")
@@ -74,7 +70,6 @@ def login():
     return render_template("login.html", title="Авторизация", form=form)
 
 
-# TODO: проверка на уникальность почты
 @application.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
@@ -115,6 +110,12 @@ def register():
 @application.route('/', methods=["GET"])
 def index():
     return render_template("index.html", title="Главная")
+
+
+@application.route("/messanger", methods=["GET", "POST"])
+@login_required
+def messanger():
+    return render_template("messanger.html", title="Мессенджер")
 
 
 if __name__ == "__main__":
