@@ -12,6 +12,8 @@ $mainFontSize: 25px;
 $messageErrorColor: #ff0000;
 $messageSuccessColor: #08ff00;
 $messagePrimaryColor: #0f9ada;
+$chatMessageFromColor: #303030;
+$chatMessageToColor: #ff0000;
 
 // Mixins
 
@@ -469,8 +471,8 @@ a {
         .dialog-time {
             background-color: $messagePrimaryColor;
             border-radius: 5px;
-            width: min-content;
-            height: max-content;
+            width: max-content;
+            height: min-content;
             padding: 5px;
         }
     }
@@ -486,6 +488,124 @@ a {
         background: $mutedTextColor;
         border-radius: 100%;
         outline: none;
+    }
+}
+
+.chat {
+    color: $whiteTextColor;
+    @include flex-center(column);
+
+    .chat__header {
+        @include flex-center(row);
+
+        .chat-user-preview {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+        }
+
+        .userNameSurname {
+            margin-left: 10px;
+        }
+    }
+
+    .chat-message {
+        width: 300px;
+        padding: 15px;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .chat-message-created-at {
+        position: absolute;
+        margin: -10px 0px 0px 270px;
+        font-size: 14px;
+        color: #dfdfdf;
+    }
+
+    .chat-message-from {
+        background-color: $chatMessageFromColor;
+        margin: 5px;
+    }
+
+    .chat-message-to {
+        background-color: $chatMessageToColor;
+        margin: 5px 0 0 300px;
+    }
+
+    .chat-message-to:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-bottom: 15px solid #ff0000;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        bottom: 0px;
+        right: -15px;
+    }
+
+    .chat-message-from:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-bottom: 15px solid #303030;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        bottom: 0px;
+        right: 315px;
+    }
+
+    .chat-message-to:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-bottom: 17px solid #ff0000;
+        border-left: 16px solid transparent;
+        border-right: 16px solid transparent;
+        bottom: 0px;
+        right: -15px;
+    }
+
+    .chat-message-from:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-bottom: 15px solid #303030;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        bottom: 0px;
+        right: 315px;
+    }
+
+    .list__messages {
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .form__messages {
+        @include flex-center(row);
+        textarea {
+            outline: none;
+            color: $whiteTextColor;
+            border: 1px solid gray;
+            font-size: $mainFontSize;
+            background: transparent;
+        }
+        button {
+            margin-left: 15px;
+            background: #303030;
+            border: none;
+            color: $whiteTextColor;
+            padding: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            height: 32px;
+        }
     }
 }
 

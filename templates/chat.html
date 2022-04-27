@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="main__header">
+        <img class="logo" src="/static/img/logo.svg" alt="">
+        <h1>ADEMY | Messanger</h1>
+    </div>
+    <!-- TODO: выводится некорректно app.scss -->
+    {% include "flash.html" %}
+    <div class="chat">
+        <div class="chat__header">
+            <img class="chat-item chat-user-preview userAvatar" src="/static/img/white.jpg" alt="">
+            <p class="chat-item userNameSurname">Name Surname</p>
+        </div>
+        <div class="list__messages">
+{#            <div class="chat-message chat-message-from">#}
+{#                <p class="chatMessageContent">TextMessageFrom</p>#}
+{#                <span class="chat-message-created-at">TimeMessageFrom</span>#}
+{#            </div>#}
+{#            <div class="chat-message chat-message-to">#}
+{#                <p class="chatMessageContent">TextMessageTo</p>#}
+{#                <span class="chat-message-created-at">TimeMessageTo</span>#}
+{#            </div>#}
+        </div>
+        <div class="form__messages">
+            <textarea id="messageText" placeholder="Написать сообщение..."></textarea>
+            <button id="sendMessage">Отправить</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/chat.js"></script>
+{% endblock %}

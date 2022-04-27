@@ -118,5 +118,11 @@ def messanger():
     return render_template("messanger.html", title="Мессенджер")
 
 
+@application.route("/messanger/chat/<int:id>", methods=["GET", "POST"])
+@login_required
+def message(id: int):
+    return render_template("chat.html", title="Мессенджер")
+
+
 if __name__ == "__main__":
     application.run(host="localhost", port=8080)

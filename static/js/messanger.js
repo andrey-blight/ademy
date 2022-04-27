@@ -17,20 +17,34 @@ $(document).ready(() => {
         ).then((response) => {
             return response.json()
         })
-        let userAvatar = document.getElementById("userAvatar")
-        let userNameSurname = document.getElementById("userNameSurname")
-        let lastMessage = document.getElementById("lastMessage")
-        let lastMessageTime = document.getElementById("lastMessageTime")
+        console.log(dialogs)
+        let counter = 0
         for (let dialog of dialogs) {
+            console.log(dialog)
+            let newDialog = document.getElementsByClassName("dialog")[0].cloneNode(true)
+            let hr = document.createElement("hr")
+            let userAvatar = document.getElementsByClassName("userAvatar")[counter]
+            let userNameSurname = document.getElementsByClassName("userNameSurname")[counter]
+            let lastMessage = document.getElementsByClassName("lastMessage")[counter]
+            let lastMessageTime = document.getElementsByClassName("lastMessageTime")[counter]
+            let dialogsContainer = document.getElementsByClassName("list__dialogs")[0]
+            dialogsContainer.appendChild(hr)
+            document.querySelector(".list__dialogs").appendChild(newDialog)
+            console.log(dialog, userNameSurname)
             userAvatar.src = IMAGE_PATH + dialog.users[0].images[0].image_href
             for (let user of dialog.users) {
-                if (user.id !== getCookie("user_id").user_id) {
+                if (user.id !== parseInt(getCookie("user_id").user_id)) {
+                    console.log(user.id, getCookie("user_id").user_id)
+                    newDialog.href = `/messanger/chat/${user.id}`
                     userNameSurname.textContent = `${user.name} ${user.surname}`
                 }
             }
             lastMessage.textContent = dialog.last_message
+            lastMessageTime.textContent = dialog.last_message_created_at
+            counter += 1
         }
-        console.log(dialogs)
+        let dialog = document.getElementsByClassName("dialog")
+        dialog[dialog.length - 1].remove()
     }
 
     function getCookie(cookieName) {
@@ -41,7 +55,7 @@ $(document).ready(() => {
                 let dataOfCookie = cookie.split('=')
                 let cookieValue = dataOfCookie.slice(1).join('=')
                 result[cookieName] = cookieValue
-                console.log(result)
+                // console.log(result)
                 return result
             }
         }
