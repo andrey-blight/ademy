@@ -10,12 +10,16 @@
     <div class="messanger">
         <div class="list__dialogs">
             <div class="dialog">
-                <img class="dialog-item dialog-preview" src="/static/img/white.jpg" alt="">
-                <p class="dialog-item">Name Surname</p>
-                <p class="dialog-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum, labore maiores natus quae tempore
-                    veniam! Animi asperiores dolore doloremque, ducimus eos harum inventore praesentium quasi similique
-                    sint sit tempore, veritatis?</p>
-                <p class="dialog-item dialog-time">00:00</p>
+                <img id="userAvatar" class="dialog-item dialog-preview" src="/static/img/white.jpg" alt="">
+                <div class="dialog__properties">
+                    <p id="userNameSurname" class="dialog-item">Name Surname</p>
+                    <p id="lastMessage" class="dialog-item dialog-last-message">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Ipsum, labore maiores natus quae tempore
+                        veniam! Animi asperiores dolore doloremque, ducimus eos harum inventore praesentium quasi
+                        similique
+                        sint sit tempore, veritatis?</p>
+                </div>
+                <p id="lastMessageTime" class="dialog-item dialog-time">00:00</p>
             </div>
             <hr>
         </div>
@@ -24,5 +28,5 @@
 
 {% block scripts %}
     <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/app.js"></script>
+    <script src="/static/js/messanger.js"></script>
 {% endblock %}
