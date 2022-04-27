@@ -457,6 +457,15 @@ a {
             border-radius: 50%;
         }
 
+        .dialog__properties {
+            display: flex;
+            flex-direction: column;
+
+            .dialog-last-message {
+                margin-top: 10px;
+            }
+        }
+
         .dialog-time {
             background-color: $messagePrimaryColor;
             border-radius: 5px;
