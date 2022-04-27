@@ -29,6 +29,7 @@ class MessageListResource(Model):
             session.add(message)
             session.commit()
             message.chat.last_message = args["text"]
+            message.chat.last_message_created_at = message.created_at
             session.commit()
             return jsonify({"message": f"Message {args['text']} "
                                        f"was added to chat {chat_id}"
