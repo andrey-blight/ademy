@@ -5,6 +5,7 @@
     <span class="progress-bar"></span>
     <div class="main__register">
         <form action="" method="post" enctype="multipart/form-data" novalidate>
+            {% include "flash.html" %}
             <div class="messages">
                 {% for field in form if field.name != 'csrf_token' %}
                     {% if field.errors %}

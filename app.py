@@ -63,9 +63,8 @@ def login():
                 max_age=60 * 60 * 24 * 265 * 2
             )
             return response
-        # TODO: переделать на flash
+        flash("Неправильный логин или пароль", category="error")
         return render_template("login.html",
-                               error="Неправильный логин или пароль",
                                form=form)
     return render_template("login.html", title="Авторизация", form=form)
 
@@ -76,6 +75,10 @@ def register():
         return redirect('/')
     form = RegisterForm()
     if form.validate_on_submit():
+        db_session = db.create_session()
+        if db_session.query(User).filter(User.email == form.email.data).first():
+            flash("Такой пользователь уже существует!", category="error")
+            return render_template('register.html', title='Регистрация', form=form)
         json_dict = {}
         data = dict(request.form)
         interests = []
