@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script
+            type="text/javascript"
+            src="https://vk.com/js/api/share.js?95"
+            charset="windows-1251"
+    ></script>
+    <link rel="stylesheet" href="/static/css/app.css">
+    <title>{{ title }}</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+        <a class="header-link" href="/"><img class="header-icon" src="/static/img/main.svg" alt="">
+            <span>Главная</span></a>
+        <a class="header-link" href="/messanger"><img class="header-icon" src="/static/img/chat.svg" alt="">
+            <span>Мессенджер</span></a>
+        <script type="text/javascript">
+            document.write(VK.Share.button(false, {type: "round_nocount", text: "Поделиться"}));
+        </script>
+    </div>
+    <div class="main">
+        {% block main %}
+        {% endblock %}
+    </div>
+    <div class="footer">
+        <p>All rights are reserved &copy; Ademy 2022</p>
+    </div>
+</div>
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

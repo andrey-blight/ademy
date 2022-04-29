@@ -1,0 +1,5 @@
+.idea
+.env
+create_mysql.py
+**/__pycache__/
+prepros.config
