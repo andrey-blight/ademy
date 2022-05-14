@@ -3,7 +3,6 @@ from Data.Models.User import User
 from Data.Models.Image import Image
 from Data.Models.Interest import Interest
 from Data.Models.Chat import Chat
-from sqlalchemy.exc import OperationalError
 from faker import Faker
 import random
 

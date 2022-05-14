@@ -10,15 +10,13 @@ class Model(Resource):
     def __init__(self, child_class_name: str):
         self.db = SqlAlchemyDatabase()
         self._child_class_name = child_class_name
-        self.Model = getattr(
-            importlib.import_module("Data.Models." + child_class_name),
-            child_class_name)
+        self.Model = getattr(importlib.import_module("Data.Models." + child_class_name), child_class_name)
 
     def get_object(self, id: int, session: Session):
         """Retrieves an object in the session that was passed by id"""
         try:
             obj = session.query(self.Model).get(id)
-            if obj is None:
+            if obj is None:  # if we don't find obj by id, we have irregular id
                 raise IndexError
             return obj
         except IndexError:

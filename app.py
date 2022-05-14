@@ -13,14 +13,13 @@ import requests
 from flask import Flask, render_template, redirect, request, make_response, flash
 from flask_login import LoginManager, login_user, current_user, login_required
 
+load_environment_variable()
 application = Flask(__name__, template_folder="templates")
 application.config.from_object("config.DevConfig")
 
-load_environment_variable()
-
 API = MainAPI(application)
-server = ServerBuilder().get_server()
 
+server = ServerBuilder().get_server()  # TODO: Зачем?
 db = SqlAlchemyDatabase()
 
 login_manager = LoginManager()
