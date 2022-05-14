@@ -16,8 +16,8 @@ class Message(SqlAlchemyBase, SerializerMixin):
     user_id = Column(Integer, ForeignKey("users.id"))
     text = Column(String(500), nullable=False)
     created_at = Column(DateTime, default=datetime.now)
-    chat = relationship("Chat")
-    user = relationship("User")
+    chat = relationship("Chat", foreign_keys=[chat_id])
+    user = relationship("User", foreign_keys=[user_id])
 
     def __init__(self, text, chat_id, user_id):
         self.text = text

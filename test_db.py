@@ -1,3 +1,5 @@
+import pymysql
+
 from Classes.SqlAlchemyDatabase import SqlAlchemyDatabase
 from Data.Models.User import User
 from Data.Models.Image import Image
@@ -5,6 +7,14 @@ from Data.Models.Interest import Interest
 from Data.Models.Chat import Chat
 from faker import Faker
 import random
+
+
+def create_sql():
+    conn = pymysql.connect(host='127.0.0.1', user='root', passwd='Nbgfydf12!?')
+    cur = conn.cursor()
+    cur.execute("CREATE DATABASE site_database")
+    cur.close()
+    conn.close()
 
 
 def create_users():
@@ -49,8 +59,9 @@ def create_chats():
 
 
 if __name__ == '__main__':
-    db = SqlAlchemyDatabase(create=False, delete=False)
-    # create_users()
-    # create_images()
-    # create_interests()
-    create_chats()
+    create_sql()
+    db = SqlAlchemyDatabase(create=True, delete=True)
+    create_users()
+    create_images()
+    create_interests()
+    # create_chats()
