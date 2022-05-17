@@ -63,8 +63,7 @@ def login():
             )
             return response
         flash("Неправильный логин или пароль", category="error")
-        return render_template("login.html",
-                               form=form)
+        return render_template("login.html", form=form)
     return render_template("login.html", title="Авторизация", form=form)
 
 

@@ -47,7 +47,7 @@ $(document).ready(() => {
             }
             console.log(`Like to ${to_id} from ${getCookie("user_id").user_id}`)
             const like = await fetch(
-                API_URI + `/like/${getCookie("user_id").user_id}/${to_id}`,
+                API_URI + `/likes/${getCookie("user_id").user_id}/${to_id}`,
                 {
                     method: "POST",
                     headers: {

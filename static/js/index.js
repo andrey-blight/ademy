@@ -69,14 +69,15 @@ $(document).ready(() => {
             return response.json()
         })
         let counter = 0
-        for (let value of interests) {
+        console.log(interests)
+        for (let value of interests["names"]) {
             let checkInputElement = document.createElement("input")
             checkInputElement.setAttribute("type", "checkbox")
             console.log(value)
             checkInputElement.setAttribute("name", `interest_${counter}`)
-            checkInputElement.setAttribute("value", `${value.name}`)
+            checkInputElement.setAttribute("value", `${value}`)
             const checkDescription = document.createElement("span")
-            checkDescription.appendChild(document.createTextNode(value.name))
+            checkDescription.appendChild(document.createTextNode(value))
             const wrapInput = document.createElement("label")
             wrapInput.setAttribute("class", "checkbox")
             wrapInput.appendChild(checkInputElement)

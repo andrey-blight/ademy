@@ -1,5 +1,4 @@
 from Classes.Model import Model
-from Data.Functions import token_required
 
 from flask import jsonify
 from flask.wrappers import Response
@@ -10,6 +9,10 @@ class InterestListResource(Model):
         super().__init__("Interest")
 
     def get(self) -> Response:
+        """
+        Get all interests from database
+        :return: list of interests in JSON
+        """
         session = self.db.create_session()
         interests = session.query(self.Model).all()
-        return jsonify([item.to_dict() for item in interests])
+        return jsonify({"names": [item.to_dict()["name"] for item in interests]})

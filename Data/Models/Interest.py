@@ -12,7 +12,7 @@ user_to_interest = Table("user_to_interest", SqlAlchemyBase.metadata,
 
 class Interest(SqlAlchemyBase, SerializerMixin):
     __tablename__ = "interests"
-    serialize_only = ("id", "name")
+    serialize_only = ("name",)
 
     id = Column(Integer, primary_key=True)
     name = Column(String(25), unique=True)

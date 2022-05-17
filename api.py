@@ -18,7 +18,7 @@ class MainAPI:
         self.api.add_resource(UserRecommendResource, "/recommend_user/<int:count>/<int:sex>", methods=["GET"])
         self.api.add_resource(UsersChatsResource, "/chats/<int:user_id>", methods=["GET"])
         self.api.add_resource(InterestListResource, r"/interests", methods=["GET"])
-        self.api.add_resource(LikeResource, "/like/<int:from_id>/<int:to_id>", methods=["POST"])
+        self.api.add_resource(LikeResource, "/likes/<int:from_id>/<int:to_id>", methods=["POST"])
         self.api.add_resource(MessageListResource, "/message/<int:chat_id>", methods=["GET", "POST"])
 
     def get_api_prefix(self):
