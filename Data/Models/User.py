@@ -58,9 +58,9 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
                               secondaryjoin=(id == liked_from.c.id_from)
                               )
 
-    def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2],
-                 password: str, email: str,
+    def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2], password: str, email: str,
                  about_yourself=None):
+        super().__init__()
         self.name = name
         self.surname = surname
         self.age = age

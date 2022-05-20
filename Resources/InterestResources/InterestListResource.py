@@ -11,7 +11,7 @@ class InterestListResource(Model):
     def get(self) -> Response:
         """
         Get all interests from database
-        :return: list of interests in JSON
+        :return: list of interests in JSON in format {"names" :["interest_1", "interest_2",..., "interest_n"]}
         """
         session = self.db.create_session()
         interests = session.query(self.Model).all()

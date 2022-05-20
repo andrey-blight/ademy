@@ -43,8 +43,7 @@ def create_images():
     session = db.create_session()
     for i in range(1, 10 + 1):
         user = session.query(User).get(i)
-        db_img = Image(user_id=i,
-                       image_href=r"test_image.jpg")
+        db_img = Image(user_id=i, image_href=r"test_image.jpg")
         user.images.append(db_img)
     session.commit()
 

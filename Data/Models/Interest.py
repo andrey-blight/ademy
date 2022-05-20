@@ -18,5 +18,6 @@ class Interest(SqlAlchemyBase, SerializerMixin):
     name = Column(String(25), unique=True)
     users = relationship("User", secondary=user_to_interest, back_populates="interests")
 
-    def __init__(self, name):
+    def __init__(self, name: str):
+        super().__init__()
         self.name = name

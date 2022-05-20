@@ -11,18 +11,23 @@ class LikeResource(Model):
 
     def post(self, from_id: int, to_id: int) -> Response:
         """
-        This request set like from user with id "from_id" to user with id "to_id"
-        If user from have been liked by user_to we create chat between them
+        This request set like from user with id "from_id" to user with id "to_id".
+        If user from have been liked by user_to we create chat between them.
+        Gender of two users cannot be the same
         :param from_id: id of the user who likes
         :param to_id: id of the user who is being liked
         :return: JSON response with status of request
         """
+        if from_id == to_id:
+            return jsonify({"error": "id is equal"})
         session = self.db.create_session()
         user_from = self.get_object(from_id, session)
         user_to = self.get_object(to_id, session)
+        if user_to.sex == user_from.sex:
+            return jsonify({"error": "the gender is the same"})
         try:
             if user_to in user_from.liked_to:
-                return jsonify({"message": f"like from user {from_id} to user {to_id} has been already set"})
+                return jsonify({"error": f"like from user {from_id} to user {to_id} has been already set"})
             user_from.set_like(to_id, session=session)
             ans = {"message": f"set like from user {from_id} to user {to_id}."}
             if user_to in user_from.liked_from:  # if it's mutual like we create chat between them

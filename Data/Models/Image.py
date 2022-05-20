@@ -19,6 +19,7 @@ class Image(SqlAlchemyBase, SerializerMixin):
     user = relationship("User")
 
     def __init__(self, user_id, image_href):
+        super().__init__()
         self.user_id = user_id
         self.image_href = image_href
         self.set_index()

@@ -9,7 +9,7 @@ from sqlalchemy_serializer import SerializerMixin
 
 class Message(SqlAlchemyBase, SerializerMixin):
     __tablename__ = "messages"
-    serialize_only = ("id", "user_id", "text", "created_at")
+    serialize_only = ("user_id", "text", "created_at")
 
     id = Column(Integer, primary_key=True)
     chat_id = Column(Integer, ForeignKey("chats.id"))
@@ -20,6 +20,7 @@ class Message(SqlAlchemyBase, SerializerMixin):
     user = relationship("User", foreign_keys=[user_id])
 
     def __init__(self, text, chat_id, user_id):
+        super().__init__()
         self.text = text
         self.chat_id = chat_id
         self.user_id = user_id
