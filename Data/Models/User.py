@@ -2,8 +2,7 @@ from Classes.SqlAlchemyDatabase import SqlAlchemyBase, SqlAlchemyDatabase
 
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, \
-    Table, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint, Table, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -58,7 +57,7 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
                               secondaryjoin=(id == liked_from.c.id_from)
                               )
 
-    def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2], password: str, email: str,
+    def __init__(self, name: str, surname: str, age: int, sex: int in [1, 2], hashed_password: str, email: str,
                  about_yourself=None):
         super().__init__()
         self.name = name
@@ -67,7 +66,7 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
         self.about_yourself = about_yourself
         self.sex = sex
         self.email = email
-        self._set_password(password)
+        self._set_password(hashed_password)
 
     def _set_password(self, password: str) -> None:
         self.hashed_password = generate_password_hash(password)

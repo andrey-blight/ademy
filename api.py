@@ -16,7 +16,7 @@ class MainAPI:
 
     def _resources(self) -> None:
         self.api.add_resource(UserListResource, r"/users", methods=["GET", "POST"])
-        self.api.add_resource(UserRecommendResource, r"/recommend_user/<int:count>/<int:sex>", methods=["GET"])
+        self.api.add_resource(UserRecommendResource, r"/recommend_users/<int:count>/<int:sex>", methods=["GET"])
         self.api.add_resource(UsersChatsResource, r"/chats/<int:user_id>", methods=["GET"])
         self.api.add_resource(InterestListResource, r"/interests", methods=["GET"])
         self.api.add_resource(LikeResource, r"/likes/<int:from_id>/<int:to_id>", methods=["POST"])
